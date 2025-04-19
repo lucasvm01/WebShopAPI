@@ -7,4 +7,29 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Pedidos\Commands\IniciarPedido\" />
+    <Folder Include="Pedidos\Commands\IncluirProdutosPedido\" />
+    <Folder Include="Pedidos\Commands\FecharPedido\" />
+    <Folder Include="Pedidos\Commands\AlterarInfoPedido\" />
+    <Folder Include="Pedidos\Commands\RemoverProdutosPedido\" />
+    <Folder Include="Pedidos\Queries\GetPedido\" />
+    <Folder Include="Pedidos\Queries\GetPedidos\" />
+    <Folder Include="Pessoas\Commands\CorrigirPessoa\" />
+    <Folder Include="Pessoas\Queries\GetPessoa\" />
+    <Folder Include="Produtos\Commands\CadastrarProduto\" />
+    <Folder Include="Produtos\Commands\InativarProduto\" />
+    <Folder Include="Produtos\Commands\CorrigirProduto\" />
+    <Folder Include="Produtos\Queries\GetProdutos\" />
+    <Folder Include="Produtos\Queries\GetProduto\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
 </Project>
