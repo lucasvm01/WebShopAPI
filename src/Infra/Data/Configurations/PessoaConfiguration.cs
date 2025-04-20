@@ -10,11 +10,42 @@ public class PessoaConfiguration : IEntityTypeConfiguration<Pessoa>
     {
         builder.ToTable("Pessoa");
 
-        builder.HasKey(x => x.Id);
+        builder.HasKey(p => p.Id);
 
-        builder.Property(x => x.Id);
+        builder.Property(p => p.Id);
 
-        builder.Property(x => x.IsAtivo);
+        builder.Property(p => p.Nome)
+            .IsRequired()
+            .HasMaxLength(50);
 
+        builder.Property(p => p.CPF)
+            .IsRequired()
+            .HasMaxLength(11);
+
+        builder.Property(p => p.Email)
+            .IsRequired()
+            .HasMaxLength(50);
+
+        builder.OwnsOne(
+            p => p.TipoPessoa, 
+            tipoPessoa =>
+            {
+                tipoPessoa.Property(t => t.IsCliente)
+                    .HasColumnName("IsCliente")
+                    .IsRequired();
+
+                tipoPessoa.Property(t => t.IsFuncionario)
+                    .HasColumnName("IsFuncionario")
+                    .IsRequired();
+            }
+        );
+        builder.Navigation(p => p.TipoPessoa)
+            .IsRequired();
+
+        builder.Property(p => p.IsAtivo)
+            .IsRequired();
+
+        builder.HasMany(p => p.Pedidos)
+            .WithOne(x => x.Pessoa);
     }
 }

@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Microsoft.EntityFrameworkCore;
+using WebShopAPI.Domain.Entities.Produtos;
 
 namespace WebShopAPI.Infra.Data.Configurations;
 
-internal class ProdutoConfiguration
+public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
 {
 }
