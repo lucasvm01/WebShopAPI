@@ -20,6 +20,8 @@ public partial class Pedido : BaseEntity
 
     public DateTime? DataFechamento { get; private set; }
 
+    public long PessoaId { get; private set; }
+
     public Pessoa Pessoa { get; private set; }
 
     public IReadOnlyCollection<Produto> Produtos => _produtos.AsReadOnly();

@@ -16,7 +16,7 @@ public partial class Produto : BaseEntity
 
     public string Descricao { get; set; }
 
-    public string Tipo { get; private set; }
+    public long Quantidade { get; private set; }
 
     public bool IsAtivo { get; private set; }
 
