@@ -7,9 +7,9 @@ namespace WebShopAPI.Domain.Entities.Pedidos;
 
 public partial class Pedido : BaseEntity<long>, IAggregateRoot
 {
-    public Pedido(PedidoModel model) 
+    public Pedido(long pessoaId) 
     {
-        PessoaId = model.PessoaId;
+        PessoaId = pessoaId;
 
         DataAbertura = DateTime.Now;
         DataFechamento = null;

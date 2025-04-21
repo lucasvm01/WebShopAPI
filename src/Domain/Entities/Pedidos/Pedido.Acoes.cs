@@ -1,27 +1,42 @@
-﻿using WebShopAPI.Domain.Entities.Produtos;
+﻿using WebShopAPI.Domain.Models.Pedidos;
 
 namespace WebShopAPI.Domain.Entities.Pedidos;
 
 public partial class Pedido
 {
-    public void AdicionarProdutos(List<(Produto, long)> produtos)
+    public void AdicionarProduto(PedidoProdutoAdicionarModel model)
     {
-        foreach (var produto in produtos) {
-            var pedidoProduto = new PedidoProduto
-            {
-                Pedido = this,
-                Produto = produto.Item1,
-                QuantidadeProduto = produto.Item2,
-            };
+        var pedidoProduto = new PedidoProduto
+        {
+            Pedido = this,
+            Produto = model.Produto,
+            QuantidadeProduto = model.Quantidade,
+        };
 
-            _produtos.Add(pedidoProduto);
-        }
+        _produtos.Add(pedidoProduto);
     }
 
     public void RemoverProduto(long produtoId)
     {
         var produto = _produtos.First(p => p.Id == produtoId);
+
+        produto.QuantidadeProduto = 0;
+
         _produtos.Remove(produto);
+    }
+
+    public void AlterarQuantidadeProduto(long produtoId, long quantidadeNova)
+    {
+        if (quantidadeNova == 0)
+        {
+            RemoverProduto(produtoId);
+        }
+        else
+        {
+            var produto = _produtos.First(p => p.Id == produtoId);
+
+            produto.QuantidadeProduto = quantidadeNova;
+        }
     }
 
     public void FecharPedido()
