@@ -15,9 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebShopAPI.Domain", "src\Do
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebShopAPI.Application", "src\Application\WebShopAPI.Application.csproj", "{F6E6547E-8755-4B81-B623-6EA03EBC3FF4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebShopAPI.WebAPI", "src\WebAPI\WebShopAPI.WebAPI.csproj", "{1C3B7266-A0DD-48DD-BC44-9E3F16310EA0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebShopAPI.WebAPI", "src\WebAPI\WebShopAPI.WebAPI.csproj", "{1C3B7266-A0DD-48DD-BC44-9E3F16310EA0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebShopAPI.Infra.Data", "src\Infra\Data\WebShopAPI.Infra.Data.csproj", "{95AAA808-1AD3-4E5C-9A5C-A32ABD172BDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebShopAPI.Infra.Data", "src\Infra\Data\WebShopAPI.Infra.Data.csproj", "{95AAA808-1AD3-4E5C-9A5C-A32ABD172BDA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

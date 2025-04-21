@@ -15,16 +15,21 @@
     <Folder Include="Pedidos\Commands\RemoverProdutosPedido\" />
     <Folder Include="Pedidos\Queries\GetPedido\" />
     <Folder Include="Pedidos\Queries\GetPedidos\" />
-    <Folder Include="Pessoas\Commands\CorrigirPessoa\" />
+    <Folder Include="Pessoas\Commands\AtivarPessoa\" />
+    <Folder Include="Pessoas\Commands\CorrigirCPFPessoa\" />
+    <Folder Include="Pessoas\Commands\CorrigirEmailPessoa\" />
+    <Folder Include="Pessoas\Commands\CorrigirNomePessoa\" />
     <Folder Include="Pessoas\Queries\GetPessoa\" />
     <Folder Include="Produtos\Commands\CadastrarProduto\" />
     <Folder Include="Produtos\Commands\InativarProduto\" />
-    <Folder Include="Produtos\Commands\CorrigirProduto\" />
+    <Folder Include="Produtos\Commands\CorrigirDescricaoProduto\" />
+    <Folder Include="Produtos\Commands\AtivarProduto\" />
     <Folder Include="Produtos\Queries\GetProdutos\" />
     <Folder Include="Produtos\Queries\GetProduto\" />
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="11.11.0" />
     <PackageReference Include="MediatR" Version="12.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.4" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.4">

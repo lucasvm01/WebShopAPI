@@ -1,10 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace WebShopAPI.WebAPI.Controllers.Cadastro;
 
-[Route("api/[controller]")]
-[ApiController]
 public class ProdutosController : ApiController
 {
 }
