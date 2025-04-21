@@ -1,9 +1,6 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using WebShopAPI.Application.Pessoas.Commands.CadastrarPessoa;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace WebShopAPI.WebAPI.Controllers.Cadastro;
 

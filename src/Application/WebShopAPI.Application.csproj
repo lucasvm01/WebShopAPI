@@ -20,7 +20,6 @@
     <Folder Include="Pessoas\Commands\CorrigirEmailPessoa\" />
     <Folder Include="Pessoas\Commands\CorrigirNomePessoa\" />
     <Folder Include="Pessoas\Queries\GetPessoa\" />
-    <Folder Include="Produtos\Commands\CadastrarProduto\" />
     <Folder Include="Produtos\Commands\InativarProduto\" />
     <Folder Include="Produtos\Commands\CorrigirDescricaoProduto\" />
     <Folder Include="Produtos\Commands\AtivarProduto\" />
