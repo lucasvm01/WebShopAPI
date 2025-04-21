@@ -19,5 +19,8 @@ public class CadastrarPessoaCommandValidator : ValidatorBase<CadastrarPessoaComm
 
         RuleFor(p => p.Email)
             .MaximumLength(50);
+
+        RuleFor(p => p.TipoPessoa)
+            .IsInEnum();
     }
 }

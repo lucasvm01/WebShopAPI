@@ -1,5 +1,34 @@
-﻿namespace WebShopAPI.Application.Pessoas.Queries.GetPessoa;
+﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
+using WebShopAPI.Domain.Entities.Pessoas;
+using WebShopAPI.Domain.Interfaces.Infrastructure;
 
-public class GetPessoaQuery
+namespace WebShopAPI.Application.Pessoas.Queries.GetPessoa;
+
+public class GetPessoaQuery : IRequest<Pessoa>
 {
+    public long PessoaId { get; set; }
+}
+
+public class GetPessoaQueryHandler : IRequestHandler<GetPessoaQuery, Pessoa>
+{
+    private readonly IUnitOfWork _unitOfWork;
+
+    public GetPessoaQueryHandler(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    public Task<Pessoa> Handle(GetPessoaQuery request, CancellationToken cancellationToken)
+    {
+        var repository = _unitOfWork.GetRepository<Pessoa>();
+
+        var pessoa = repository
+            .FindBy(p => p.Id == request.PessoaId)
+            .Include(p => p.Pedidos)
+            .FirstAsync(cancellationToken);
+
+        return pessoa;
+    }
+
 }
