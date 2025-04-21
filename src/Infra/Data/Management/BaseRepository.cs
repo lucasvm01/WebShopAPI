@@ -42,6 +42,11 @@ public class BaseRepository<T> : IBaseRepository<T> where T : class
         return await _dbSet.FindAsync(id).ConfigureAwait(false);
     }
 
+    public IQueryable<T> FindBy(Expression<Func<T, bool>> predicate)
+    {
+        return _dbSet.Where(predicate);
+    }
+
     public Task<bool> ExistsAsync(Expression<Func<T, bool>> predicate, CancellationToken cancellationToken)
     {
         return _dbSet.AnyAsync(predicate, cancellationToken);

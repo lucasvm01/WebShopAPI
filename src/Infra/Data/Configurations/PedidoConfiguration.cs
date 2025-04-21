@@ -24,8 +24,5 @@ public class PedidoConfiguration : IEntityTypeConfiguration<Pedido>
             .OnDelete(DeleteBehavior.ClientSetNull)
             .HasForeignKey(f => f.PessoaId)
             .HasConstraintName("FK_Pessoa_Produto_PessoaId");
-
-        builder.HasMany(p => p.Produtos)
-            .WithMany(x => x.Pedidos);
     }
 }

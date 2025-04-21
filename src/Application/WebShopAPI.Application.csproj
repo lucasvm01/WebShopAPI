@@ -1,31 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
-
-  <ItemGroup>
-    <Folder Include="Pedidos\Commands\IniciarPedido\" />
-    <Folder Include="Pedidos\Commands\IncluirProdutosPedido\" />
-    <Folder Include="Pedidos\Commands\FecharPedido\" />
-    <Folder Include="Pedidos\Commands\AlterarInfoPedido\" />
-    <Folder Include="Pedidos\Commands\RemoverProdutosPedido\" />
-    <Folder Include="Pedidos\Queries\GetPedido\" />
-    <Folder Include="Pedidos\Queries\GetPedidos\" />
-    <Folder Include="Pessoas\Commands\AtivarPessoa\" />
-    <Folder Include="Pessoas\Commands\CorrigirCPFPessoa\" />
-    <Folder Include="Pessoas\Commands\CorrigirEmailPessoa\" />
-    <Folder Include="Pessoas\Commands\CorrigirNomePessoa\" />
-    <Folder Include="Pessoas\Queries\GetPessoa\" />
-    <Folder Include="Produtos\Commands\InativarProduto\" />
-    <Folder Include="Produtos\Commands\CorrigirDescricaoProduto\" />
-    <Folder Include="Produtos\Commands\AtivarProduto\" />
-    <Folder Include="Produtos\Queries\GetProdutos\" />
-    <Folder Include="Produtos\Queries\GetProduto\" />
-  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="FluentValidation" Version="11.11.0" />

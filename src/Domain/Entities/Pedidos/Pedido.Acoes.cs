@@ -1,17 +1,21 @@
 ﻿using WebShopAPI.Domain.Entities.Produtos;
-using WebShopAPI.Domain.Models.Produtos;
 
 namespace WebShopAPI.Domain.Entities.Pedidos;
 
 public partial class Pedido
 {
-    public Produto AdicionarProduto(long produtoId, ProdutoModel produtoModel)
+    public void AdicionarProdutos(List<(Produto, long)> produtos)
     {
-        // TODO Validacao para adicionar
-        var produto = new Produto(produtoModel);
-        _produtos.Add(produto);
+        foreach (var produto in produtos) {
+            var pedidoProduto = new PedidoProduto
+            {
+                Pedido = this,
+                Produto = produto.Item1,
+                QuantidadeProduto = produto.Item2,
+            };
 
-        return produto;
+            _produtos.Add(pedidoProduto);
+        }
     }
 
     public void RemoverProduto(long produtoId)
@@ -27,9 +31,8 @@ public partial class Pedido
         DataFechamento = DateTime.Now;
     }
 
-    public void ReabrirPedido() {
-        // TODO
-
-        DataFechamento = null;
-    }
+    //public void CancelarPedido()
+    //{
+    //  IsAtivo = false? DataAbertura = 0? Excluir registro?
+    //}
 }

@@ -21,8 +21,5 @@ public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
 
         builder.Property(p => p.IsAtivo)
             .IsRequired();
-
-        builder.HasMany(p => p.Pedidos)
-            .WithMany(x => x.Produtos);
     }
 }

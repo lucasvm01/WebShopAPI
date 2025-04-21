@@ -12,7 +12,17 @@ public partial class Produto
         Quantidade = quantidade;
     }
 
-    public void AtivarProduto()
+    public void AumentarQuantidade(long quantidadeAumentar)
+    {
+        Quantidade += quantidadeAumentar;
+    }
+
+    public void DiminuirQuantidade(long quantidadeDiminuir)
+    {
+        Quantidade -= quantidadeDiminuir;
+    }
+
+    public void ReativarProduto()
     {
         IsAtivo = true;
     }

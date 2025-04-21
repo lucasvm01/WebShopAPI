@@ -25,6 +25,6 @@ public partial class Produto : BaseEntity<long>, IAggregateRoot
 
     public bool IsAtivo { get; private set; }
 
-    public IReadOnlyCollection<Pedido> Pedidos => _pedidos.AsReadOnly();
-    private readonly List<Pedido> _pedidos = new();
+    public IReadOnlyCollection<PedidoProduto> Pedidos => _pedidos.AsReadOnly();
+    private readonly List<PedidoProduto> _pedidos = new();
 }

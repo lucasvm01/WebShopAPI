@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "WebShopAPI.Application": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": ""
+      }
+    }
+  }
+}

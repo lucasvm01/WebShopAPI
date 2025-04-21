@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using WebShopAPI.Application.Produtos.Commands.CadastrarProduto;
 
 namespace WebShopAPI.WebAPI.Controllers.Cadastro;
 

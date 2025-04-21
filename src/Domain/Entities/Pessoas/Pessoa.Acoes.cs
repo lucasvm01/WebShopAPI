@@ -9,22 +9,15 @@ public partial class Pessoa
         TipoPessoa = tipoPessoa;
     }
 
-    public void CorrigirNome(string nome)
+    public void CorrigirDadosBasicosPessoa(PessoaModel pessoaModel)
     {
-        Nome = nome;
+        Nome = pessoaModel.Nome;
+        CPF = pessoaModel.CPF;
+        Email = pessoaModel.Email;
+        TipoPessoa = pessoaModel.TipoPessoa;
     }
 
-    public void CorrigirCPF(string cpf)
-    {
-        CPF = cpf;
-    }
-
-    public void CorrigirEmail(string email)
-    {
-        Email = email;
-    }
-
-    public void AtivarPessoa()
+    public void ReativarPessoa()
     {
         IsAtivo = true;
     }
