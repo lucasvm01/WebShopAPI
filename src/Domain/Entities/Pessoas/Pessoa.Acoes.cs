@@ -1,16 +1,16 @@
 ﻿using WebShopAPI.Domain.Models.Pessoas;
+using WebShopAPI.Domain.Validations;
 
 namespace WebShopAPI.Domain.Entities.Pessoas;
 
 public partial class Pessoa
 {
-    public void DefinirTipoPessoa(TipoPessoa tipoPessoa)
-    {
-        TipoPessoa = tipoPessoa;
-    }
-
     public void CorrigirDadosBasicosPessoa(PessoaModel pessoaModel)
     {
+        Guard.NotNull(pessoaModel, Nome);
+        Guard.NotNull(pessoaModel, CPF);
+        Guard.NotNull(pessoaModel, Email);
+
         Nome = pessoaModel.Nome;
         CPF = pessoaModel.CPF;
         Email = pessoaModel.Email;

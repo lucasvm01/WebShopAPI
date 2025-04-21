@@ -11,6 +11,7 @@ public partial class Pessoa : BaseEntity<long>, IAggregateRoot
         Nome = model.Nome;
         CPF = model.CPF;
         Email = model.Email;
+        TipoPessoa = model.TipoPessoa;
 
         IsAtivo = true;
     }
