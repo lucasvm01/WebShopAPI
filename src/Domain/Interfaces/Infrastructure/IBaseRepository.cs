@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace WebShopAPI.Domain.Entities.Interfaces.Infrastructure;
+namespace WebShopAPI.Domain.Interfaces.Infrastructure;
 
 public interface IBaseRepository<T>
 {

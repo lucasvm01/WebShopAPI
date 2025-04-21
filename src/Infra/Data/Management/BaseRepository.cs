@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
-using WebShopAPI.Domain.Entities.Interfaces.Infrastructure;
+using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 
 namespace WebShopAPI.Infra.Data.Management;

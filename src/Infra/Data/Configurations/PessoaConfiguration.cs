@@ -1,6 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebShopAPI.Domain.Entities.Pessoas;
+using WebShopAPI.Domain.Entities.Usuarios;
 
 namespace WebShopAPI.Infra.Data.Configurations;
 
@@ -11,7 +14,6 @@ public class PessoaConfiguration : IEntityTypeConfiguration<Pessoa>
         builder.ToTable("Pessoa");
 
         builder.HasKey(p => p.Id);
-
         builder.Property(p => p.Id);
 
         builder.Property(p => p.Nome)
@@ -26,21 +28,9 @@ public class PessoaConfiguration : IEntityTypeConfiguration<Pessoa>
             .IsRequired()
             .HasMaxLength(50);
 
-        builder.OwnsOne(
-            p => p.TipoPessoa, 
-            tipoPessoa =>
-            {
-                tipoPessoa.Property(t => t.IsCliente)
-                    .HasColumnName("IsCliente")
-                    .IsRequired();
-
-                tipoPessoa.Property(t => t.IsFuncionario)
-                    .HasColumnName("IsFuncionario")
-                    .IsRequired();
-            }
-        );
-        builder.Navigation(p => p.TipoPessoa)
-            .IsRequired();
+        builder.Property(p => p.TipoPessoa)
+            .IsRequired()
+            .HasConversion<EnumToNumberConverter<Permissao, long>>();
 
         builder.Property(p => p.IsAtivo)
             .IsRequired();

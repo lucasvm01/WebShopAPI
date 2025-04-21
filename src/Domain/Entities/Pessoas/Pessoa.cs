@@ -1,10 +1,10 @@
-﻿using WebShopAPI.Domain.Entities.Interfaces;
-using WebShopAPI.Domain.Entities.Pedidos;
+﻿using WebShopAPI.Domain.Entities.Pedidos;
+using WebShopAPI.Domain.Interfaces;
 using WebShopAPI.Domain.Models.Pessoas;
 
 namespace WebShopAPI.Domain.Entities.Pessoas;
 
-public partial class Pessoa : BaseEntity, IAggregateRoot
+public partial class Pessoa : BaseEntity<long>, IAggregateRoot
 {
     public Pessoa(PessoaModel model)
     {

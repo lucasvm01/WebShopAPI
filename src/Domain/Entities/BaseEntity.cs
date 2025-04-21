@@ -1,11 +1,11 @@
 ﻿namespace WebShopAPI.Domain.Entities;
 
-public abstract class BaseEntity
+public abstract class BaseEntity<TKeyType>
 {
-    protected BaseEntity(long id = default) 
+    protected BaseEntity(TKeyType id = default) 
     { 
         Id = id;
     }
 
-    public long Id { get; set; }
+    public TKeyType Id { get; set; }
 }

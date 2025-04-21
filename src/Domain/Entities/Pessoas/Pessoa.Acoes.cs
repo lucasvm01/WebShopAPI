@@ -4,9 +4,9 @@ namespace WebShopAPI.Domain.Entities.Pessoas;
 
 public partial class Pessoa
 {
-    public void DefinirTipoPessoa(TipoPessoaModel tipoPessoaModel)
+    public void DefinirTipoPessoa(TipoPessoa tipoPessoa)
     {
-        TipoPessoa = new TipoPessoa(tipoPessoaModel);
+        TipoPessoa = tipoPessoa;
     }
 
     public void CorrigirNome(string nome)

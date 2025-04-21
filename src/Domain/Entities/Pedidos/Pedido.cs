@@ -1,11 +1,11 @@
-﻿using WebShopAPI.Domain.Entities.Interfaces;
-using WebShopAPI.Domain.Entities.Pessoas;
+﻿using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Entities.Produtos;
+using WebShopAPI.Domain.Interfaces;
 using WebShopAPI.Domain.Models.Pedidos;
 
 namespace WebShopAPI.Domain.Entities.Pedidos;
 
-public partial class Pedido : BaseEntity, IAggregateRoot
+public partial class Pedido : BaseEntity<long>, IAggregateRoot
 {
     public Pedido(PedidoModel model) 
     {

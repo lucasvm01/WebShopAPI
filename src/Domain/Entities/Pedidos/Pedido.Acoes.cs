@@ -1,23 +1,35 @@
-﻿namespace WebShopAPI.Domain.Entities.Pedidos;
+﻿using WebShopAPI.Domain.Entities.Produtos;
+using WebShopAPI.Domain.Models.Produtos;
+
+namespace WebShopAPI.Domain.Entities.Pedidos;
 
 public partial class Pedido
 {
-    public void AdicionarProdutos()
+    public Produto AdicionarProduto(long produtoId, ProdutoModel produtoModel)
     {
-        // TODO
+        // TODO Validacao para adicionar
+        var produto = new Produto(produtoModel);
+        _produtos.Add(produto);
+
+        return produto;
     }
 
-    public void RemoverProdutos()
+    public void RemoverProduto(long produtoId)
     {
-        // TODO
+        var produto = _produtos.First(p => p.Id == produtoId);
+        _produtos.Remove(produto);
     }
 
     public void FecharPedido()
     {
-        // TODO
+        // TODO Validacao para fechamento
+
+        DataFechamento = DateTime.Now;
     }
 
-    public void ReabrirPedido() { 
+    public void ReabrirPedido() {
         // TODO
+
+        DataFechamento = null;
     }
 }

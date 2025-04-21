@@ -1,4 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+﻿using WebShopAPI.Domain.Entities.Pessoas;
 
 namespace WebShopAPI.Domain.Models.Pessoas;
 
@@ -10,5 +10,5 @@ public class PessoaModel
 
     public string Email { get; set; }
 
-    public TipoPessoaModel TipoPessoa { get; set; }
-}-
+    public TipoPessoa TipoPessoa { get; set; }
+}
