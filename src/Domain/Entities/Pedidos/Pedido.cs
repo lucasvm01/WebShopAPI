@@ -1,21 +1,25 @@
-﻿using WebShopAPI.Domain.Entities.Pessoas;
+﻿using WebShopAPI.Domain.Entities.Interfaces;
+using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Entities.Produtos;
+using WebShopAPI.Domain.Models.Pedidos;
 
 namespace WebShopAPI.Domain.Entities.Pedidos;
 
-public partial class Pedido : BaseEntity
+public partial class Pedido : BaseEntity, IAggregateRoot
 {
-    public Pedido(long id) : base(id)
+    public Pedido(PedidoModel model) 
     {
+        PessoaId = model.PessoaId;
+
         DataAbertura = DateTime.Now;
         DataFechamento = null;
     }
 
-    //private Pedido()
-    //{
-    //    // Entity necessita de construtor vazio
-    //}
-    
+    private Pedido()
+    {
+        // Entity necessita de construtor vazio
+    }
+
     public DateTime DataAbertura { get; private set; }
 
     public DateTime? DataFechamento { get; private set; }

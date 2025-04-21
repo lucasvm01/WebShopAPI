@@ -1,12 +1,16 @@
-﻿namespace WebShopAPI.Domain.Entities.Pessoas;
+﻿using WebShopAPI.Domain.Models.Pessoas;
+
+namespace WebShopAPI.Domain.Entities.Pessoas;
 
 public partial class TipoPessoa
 {
-    public TipoPessoa() 
+    public TipoPessoa(TipoPessoaModel model)
     {
+        IsCliente = model.IsCliente;
+        IsFuncionario = model.IsFuncionario;
     }
 
-    //private Produto()
+    //private TipoPessoa()
     //{
     //    // Entity necessita de construtor privado vazio
     //}

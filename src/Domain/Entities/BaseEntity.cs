@@ -2,7 +2,7 @@
 
 public abstract class BaseEntity
 {
-    protected BaseEntity(long id) 
+    protected BaseEntity(long id = default) 
     { 
         Id = id;
     }

@@ -1,18 +1,23 @@
-﻿using WebShopAPI.Domain.Entities.Pedidos;
+﻿using WebShopAPI.Domain.Entities.Interfaces;
+using WebShopAPI.Domain.Entities.Pedidos;
+using WebShopAPI.Domain.Models.Produtos;
 
 namespace WebShopAPI.Domain.Entities.Produtos;
 
-public partial class Produto : BaseEntity
+public partial class Produto : BaseEntity, IAggregateRoot
 {
-    public Produto(long id) : base(id)
+    public Produto(ProdutoModel model)
     {
+        Descricao = model.Descricao;
+        Quantidade = model.Quantidade;
+
         IsAtivo = true;
     }
 
-    //private Produto()
-    //{
-    //    // Entity necessita de construtor privado vazio
-    //}
+    private Produto()
+    {
+        // Entity necessita de construtor privado vazio
+    }
 
     public string Descricao { get; set; }
 

@@ -1,18 +1,24 @@
-﻿using WebShopAPI.Domain.Entities.Pedidos;
+﻿using WebShopAPI.Domain.Entities.Interfaces;
+using WebShopAPI.Domain.Entities.Pedidos;
+using WebShopAPI.Domain.Models.Pessoas;
 
 namespace WebShopAPI.Domain.Entities.Pessoas;
 
-public partial class Pessoa : BaseEntity
+public partial class Pessoa : BaseEntity, IAggregateRoot
 {
-    public Pessoa(long id) : base(id)
+    public Pessoa(PessoaModel model)
     {
+        Nome = model.Nome;
+        CPF = model.CPF;
+        Email = model.Email;
+
         IsAtivo = true;
     }
 
-    //private Pessoa()
-    //{
-    //    // Entity necessita de construtor vazio
-    //}
+    private Pessoa()
+    {
+        // Entity necessita de construtor vazio
+    }
 
     public string Nome { get; private set; }
 
