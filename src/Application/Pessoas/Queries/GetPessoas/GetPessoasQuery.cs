@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebShopAPI.Application.Pessoas.Queries.GetPessoa;
 using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 
