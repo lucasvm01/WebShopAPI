@@ -1,3 +1,4 @@
+using DotNetEnv;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
@@ -6,6 +7,8 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 using WebShopAPI.Infra.Data.Management;
 
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -29,20 +32,18 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 
     c.DescribeAllParametersInCamelCase();
-
-    // TODO Adicionar Auth
 });
 
 //Adiciona o contexto para gerar migration
-builder.Services.AddDbContext<AppDbContext>((_, options) =>
-{
-    options.UseSqlServer(
-        builder.Configuration.GetConnectionString("AppDbContext"), // TODO
-        b => b.MigrationsAssembly("WebShopAPI.Infra.Data")
-    );
-});
+string connectionString = Environment.GetEnvironmentVariable("APP_DB_CONNECTION_STRING");
 
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+if (string.IsNullOrEmpty(connectionString))
+{
+    throw new InvalidOperationException("The connection string is not configured.");
+}
+
+builder.Services.AddDbContext<AppDbContext>(options => 
+    options.UseSqlServer(connectionString));
 
 var assembly = typeof(GetPedidoQuery).Assembly;
 builder.Services.AddMediatR(configuration =>
@@ -50,6 +51,9 @@ builder.Services.AddMediatR(configuration =>
     configuration.RegisterServicesFromAssembly(assembly);
 });
 builder.Services.AddValidatorsFromAssembly(assembly);
+
+
+builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

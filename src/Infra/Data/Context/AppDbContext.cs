@@ -16,7 +16,6 @@ public class AppDbContext : DbContext
     {
     }
 
-    // TODO DbSet
     DbSet<Pessoa> Pessoa { get; set; }
 
     DbSet<Produto> Produto { get; set; }
@@ -30,16 +29,5 @@ public class AppDbContext : DbContext
         modelBuilder.Entity<Pessoa>(new PessoaConfiguration().Configure);
         modelBuilder.Entity<Produto>(new ProdutoConfiguration().Configure);
         modelBuilder.Entity<Pedido>(new PedidoConfiguration().Configure);
-    }
-
-    public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
-    {
-        public AppDbContext CreateDbContext(string[] args)
-        {
-            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-            optionsBuilder.UseSqlServer(); // TODO Connection string
-
-            return new AppDbContext(optionsBuilder.Options);
-        }
     }
 }
