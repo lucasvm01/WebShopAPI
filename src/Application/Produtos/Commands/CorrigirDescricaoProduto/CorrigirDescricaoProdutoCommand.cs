@@ -5,13 +5,13 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Produtos.Commands.CorrigirDescricaoProduto;
 
-public class CorrigirDescricaoProdutoCommand : IRequest
+public class CorrigirDescricaoProdutoCommand : IRequest<Unit>
 {
     public long ProdutoId { get; set; }
 
     public string Descricao { get; set; }
 }
-public class CorrigirDescricaoProdutoCommandHandler : IRequestHandler<CorrigirDescricaoProdutoCommand>
+public class CorrigirDescricaoProdutoCommandHandler : IRequestHandler<CorrigirDescricaoProdutoCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -20,7 +20,7 @@ public class CorrigirDescricaoProdutoCommandHandler : IRequestHandler<CorrigirDe
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(CorrigirDescricaoProdutoCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CorrigirDescricaoProdutoCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<Produto>();
 
@@ -31,5 +31,7 @@ public class CorrigirDescricaoProdutoCommandHandler : IRequestHandler<CorrigirDe
         produto.CorrigirDescricao(request.Descricao);
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 }

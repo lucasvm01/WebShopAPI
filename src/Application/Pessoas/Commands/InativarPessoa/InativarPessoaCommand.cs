@@ -1,18 +1,17 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
-using WebShopAPI.Application.Pessoas.Commands.CorrigirDadosBasicosPessoa;
 using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Pessoas.Commands.InativarPessoa;
 
-public class InativarPessoaCommand : IRequest
+public class InativarPessoaCommand : IRequest<Unit>
 {
     public long PessoaId { get; set; }
 }
 
 
-public class InativarPessoaCommandHandler : IRequestHandler<InativarPessoaCommand>
+public class InativarPessoaCommandHandler : IRequestHandler<InativarPessoaCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -21,7 +20,7 @@ public class InativarPessoaCommandHandler : IRequestHandler<InativarPessoaComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(InativarPessoaCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(InativarPessoaCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<Pessoa>();
 
@@ -32,5 +31,7 @@ public class InativarPessoaCommandHandler : IRequestHandler<InativarPessoaComman
         pessoa.InativarPessoa();
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 }

@@ -6,7 +6,7 @@ using WebShopAPI.Domain.Models.Pessoas;
 
 namespace WebShopAPI.Application.Pessoas.Commands.CorrigirDadosBasicosPessoa;
 
-public class CorrigirDadosBasicosPessoaCommand : IRequest
+public class CorrigirDadosBasicosPessoaCommand : IRequest<Unit>
 {
     public long PessoaId { get; set; }
 
@@ -19,7 +19,7 @@ public class CorrigirDadosBasicosPessoaCommand : IRequest
     public TipoPessoa TipoPessoa { get; set; }
 }
 
-public class CorrigirDadosBasicosPessoaCommandHandler : IRequestHandler<CorrigirDadosBasicosPessoaCommand>
+public class CorrigirDadosBasicosPessoaCommandHandler : IRequestHandler<CorrigirDadosBasicosPessoaCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -28,7 +28,7 @@ public class CorrigirDadosBasicosPessoaCommandHandler : IRequestHandler<Corrigir
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(CorrigirDadosBasicosPessoaCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(CorrigirDadosBasicosPessoaCommand request, CancellationToken cancellationToken)
     {
         var pessoaModel = CriarPessoaModel(request);
 
@@ -41,6 +41,8 @@ public class CorrigirDadosBasicosPessoaCommandHandler : IRequestHandler<Corrigir
         pessoa.CorrigirDadosBasicosPessoa(pessoaModel);
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 
     public PessoaModel CriarPessoaModel(CorrigirDadosBasicosPessoaCommand request)

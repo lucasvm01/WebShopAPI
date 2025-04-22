@@ -5,13 +5,13 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Pedidos.Commands.RemoverProdutosPedido;
 
-public class RemoverProdutoPedidoCommand : IRequest
+public class RemoverProdutoPedidoCommand : IRequest<Unit>
 {
     public long PedidoId { get; set; }
 
     public long ProdutoId { get; set; }
 }
-public class RemoverProdutoPedidoCommandHandler : IRequestHandler<RemoverProdutoPedidoCommand>
+public class RemoverProdutoPedidoCommandHandler : IRequestHandler<RemoverProdutoPedidoCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -20,7 +20,7 @@ public class RemoverProdutoPedidoCommandHandler : IRequestHandler<RemoverProduto
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(RemoverProdutoPedidoCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(RemoverProdutoPedidoCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<Pedido>();
 
@@ -31,5 +31,7 @@ public class RemoverProdutoPedidoCommandHandler : IRequestHandler<RemoverProduto
         pedido.RemoverProduto(request.ProdutoId);
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 }

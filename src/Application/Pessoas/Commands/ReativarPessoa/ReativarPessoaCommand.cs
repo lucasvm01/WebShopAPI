@@ -5,12 +5,12 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Pessoas.Commands.ReativarPessoa;
 
-public class ReativarPessoaCommand : IRequest
+public class ReativarPessoaCommand : IRequest<Unit>
 {
     public long PessoaId { get; set; }
 }
 
-public class ReativarPessoaCommandHandler : IRequestHandler<ReativarPessoaCommand>
+public class ReativarPessoaCommandHandler : IRequestHandler<ReativarPessoaCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -19,7 +19,7 @@ public class ReativarPessoaCommandHandler : IRequestHandler<ReativarPessoaComman
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(ReativarPessoaCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(ReativarPessoaCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<Pessoa>();
 
@@ -30,5 +30,7 @@ public class ReativarPessoaCommandHandler : IRequestHandler<ReativarPessoaComman
         pessoa.ReativarPessoa();
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 }

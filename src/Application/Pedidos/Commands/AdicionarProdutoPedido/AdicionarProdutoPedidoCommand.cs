@@ -7,11 +7,11 @@ using WebShopAPI.Domain.Models.Pedidos;
 
 namespace WebShopAPI.Application.Pedidos.Commands.AdicionarProdutosPedido;
 
-public class AdicionarProdutoPedidoCommand : IRequest
+public class AdicionarProdutoPedidoCommand : IRequest<Unit>
 {
     public PedidoProdutoDTO PedidoProduto { get; set; }
 }
-public class AdicionarProdutosPedidoCommandHandler : IRequestHandler<AdicionarProdutoPedidoCommand>
+public class AdicionarProdutosPedidoCommandHandler : IRequestHandler<AdicionarProdutoPedidoCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -20,7 +20,7 @@ public class AdicionarProdutosPedidoCommandHandler : IRequestHandler<AdicionarPr
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(AdicionarProdutoPedidoCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(AdicionarProdutoPedidoCommand request, CancellationToken cancellationToken)
     {
         var produtoAdicionar = await BuscarProduto(request.PedidoProduto.ProdutoId, cancellationToken);
 
@@ -35,6 +35,8 @@ public class AdicionarProdutosPedidoCommandHandler : IRequestHandler<AdicionarPr
         pedido.AdicionarProduto(pedidoProdutoModel);
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 
     public async Task<Produto> BuscarProduto(long produtoId, CancellationToken cancellationToken)

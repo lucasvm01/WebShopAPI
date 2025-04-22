@@ -5,11 +5,11 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Produtos.Commands.InativarProduto;
 
-public class InativarProdutoCommand : IRequest
+public class InativarProdutoCommand : IRequest<Unit>
 {
     public long ProdutoId { get; set; }
 }
-public class InativarProdutoCommandHandler : IRequestHandler<InativarProdutoCommand>
+public class InativarProdutoCommandHandler : IRequestHandler<InativarProdutoCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -18,7 +18,7 @@ public class InativarProdutoCommandHandler : IRequestHandler<InativarProdutoComm
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(InativarProdutoCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(InativarProdutoCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<Produto>();
 
@@ -29,5 +29,7 @@ public class InativarProdutoCommandHandler : IRequestHandler<InativarProdutoComm
         produto.InativarProduto();
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 }

@@ -5,11 +5,11 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Pedidos.Commands.AlterarQuantidadeProdutoPedido;
 
-public class AlterarQuantidadeProdutoPedidoCommand : IRequest
+public class AlterarQuantidadeProdutoPedidoCommand : IRequest<Unit>
 {
     public PedidoProdutoDTO PedidoProduto { get; set; }
 }
-public class AlterarQuantidadeProdutoPedidoCommandHandler : IRequestHandler<AlterarQuantidadeProdutoPedidoCommand>
+public class AlterarQuantidadeProdutoPedidoCommandHandler : IRequestHandler<AlterarQuantidadeProdutoPedidoCommand, Unit>
 {
     private readonly IUnitOfWork _unitOfWork;
 
@@ -18,7 +18,7 @@ public class AlterarQuantidadeProdutoPedidoCommandHandler : IRequestHandler<Alte
         _unitOfWork = unitOfWork;
     }
 
-    public async Task Handle(AlterarQuantidadeProdutoPedidoCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(AlterarQuantidadeProdutoPedidoCommand request, CancellationToken cancellationToken)
     {
         var repository = _unitOfWork.GetRepository<Pedido>();
 
@@ -29,5 +29,7 @@ public class AlterarQuantidadeProdutoPedidoCommandHandler : IRequestHandler<Alte
         pedido.AlterarQuantidadeProduto(request.PedidoProduto.ProdutoId, request.PedidoProduto.Quantidade);
 
         await _unitOfWork.CommitAsync();
+
+        return Unit.Value;
     }
 }
