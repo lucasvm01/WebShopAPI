@@ -7,9 +7,7 @@ public partial class Pessoa
 {
     public void CorrigirDadosBasicosPessoa(PessoaModel pessoaModel)
     {
-        Guard.NotNull(pessoaModel, Nome);
-        Guard.NotNull(pessoaModel, CPF);
-        Guard.NotNull(pessoaModel, Email);
+        Guard.Enforce(PodeDefinirPessoa(pessoaModel));
 
         Nome = pessoaModel.Nome;
         CPF = pessoaModel.CPF;

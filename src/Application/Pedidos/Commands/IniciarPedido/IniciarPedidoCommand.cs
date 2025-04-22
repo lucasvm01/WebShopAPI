@@ -1,5 +1,7 @@
 ﻿using MediatR;
+using Microsoft.EntityFrameworkCore;
 using WebShopAPI.Domain.Entities.Pedidos;
+using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Pedidos.Commands.IniciarPedido;
@@ -19,7 +21,9 @@ public class IniciarPedidoCommandHandler : IRequestHandler<IniciarPedidoCommand,
 
     public async Task<Pedido> Handle(IniciarPedidoCommand request, CancellationToken cancellationToken)
     {
-        var pedido = new Pedido(request.PessoaId);
+        var pessoa = await BuscarPessoa(request.PessoaId, cancellationToken);
+
+        var pedido = new Pedido(pessoa);
 
         var repository = _unitOfWork.GetRepository<Pedido>();
 
@@ -28,5 +32,16 @@ public class IniciarPedidoCommandHandler : IRequestHandler<IniciarPedidoCommand,
         await _unitOfWork.CommitAsync();
 
         return pedido;
+    }
+
+    public async Task<Pessoa> BuscarPessoa(long pessoaId, CancellationToken cancellationToken)
+    {
+        var repository = _unitOfWork.GetRepository<Pessoa>();
+
+        var pessoa = await repository
+            .FindBy(p => p.Id == pessoaId)
+            .FirstAsync(cancellationToken);
+
+        return pessoa;
     }
 }

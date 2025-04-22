@@ -1,15 +1,18 @@
 ﻿using WebShopAPI.Domain.Entities.Pedidos;
 using WebShopAPI.Domain.Interfaces;
 using WebShopAPI.Domain.Models.Produtos;
+using WebShopAPI.Domain.Validations;
 
 namespace WebShopAPI.Domain.Entities.Produtos;
 
 public partial class Produto : BaseEntity<long>, IAggregateRoot
 {
-    public Produto(ProdutoModel model)
+    public Produto(ProdutoModel produtoModel)
     {
-        Descricao = model.Descricao;
-        Quantidade = model.Quantidade;
+        Guard.Enforce(PodeCadastrarProduto(produtoModel));
+
+        Descricao = produtoModel.Descricao;
+        Quantidade = produtoModel.Quantidade;
 
         IsAtivo = true;
     }

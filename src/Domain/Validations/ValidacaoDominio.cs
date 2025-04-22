@@ -16,8 +16,6 @@ public class ValidacaoDominio
     {
         return Propriedade + " : " + Mensagem;
     }
-
-    public static List<ValidacaoDominio> Init => new();
 }
 
 public static class Guard
@@ -27,22 +25,5 @@ public static class Guard
         if (falhas == null) return;
         if (falhas.Count == 0) return;
         throw new Exception(falhas.ToString());
-    }
-
-    public static void NotNull(object value, string propertyName)
-    {
-        Enforce(new List<ValidacaoDominio>().NotNull(
-            value, propertyName, "O valor está vazio."));
-    }
-
-    public static List<ValidacaoDominio> NotNull(
-        this List<ValidacaoDominio> source,
-        object value,
-        string propertyName,
-        string message)
-    {
-        if (value != null) return source;
-        source.Add(new ValidacaoDominio(propertyName, message));
-        return source;
     }
 }

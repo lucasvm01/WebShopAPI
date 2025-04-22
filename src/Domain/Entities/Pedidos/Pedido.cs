@@ -1,15 +1,16 @@
 ﻿using WebShopAPI.Domain.Entities.Pessoas;
-using WebShopAPI.Domain.Entities.Produtos;
 using WebShopAPI.Domain.Interfaces;
-using WebShopAPI.Domain.Models.Pedidos;
+using WebShopAPI.Domain.Validations;
 
 namespace WebShopAPI.Domain.Entities.Pedidos;
 
 public partial class Pedido : BaseEntity<long>, IAggregateRoot
 {
-    public Pedido(long pessoaId) 
+    public Pedido(Pessoa pessoa) 
     {
-        PessoaId = pessoaId;
+        Guard.Enforce(PodeIniciarPedido(pessoa));
+
+        Pessoa = pessoa;
 
         DataAbertura = DateTime.Now;
         DataFechamento = null;

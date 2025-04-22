@@ -1,17 +1,20 @@
 ﻿using WebShopAPI.Domain.Entities.Pedidos;
 using WebShopAPI.Domain.Interfaces;
 using WebShopAPI.Domain.Models.Pessoas;
+using WebShopAPI.Domain.Validations;
 
 namespace WebShopAPI.Domain.Entities.Pessoas;
 
 public partial class Pessoa : BaseEntity<long>, IAggregateRoot
 {
-    public Pessoa(PessoaModel model)
+    public Pessoa(PessoaModel pessoaModel)
     {
-        Nome = model.Nome;
-        CPF = model.CPF;
-        Email = model.Email;
-        TipoPessoa = model.TipoPessoa;
+        Guard.Enforce(PodeDefinirPessoa(pessoaModel));
+
+        Nome = pessoaModel.Nome;
+        CPF = pessoaModel.CPF;
+        Email = pessoaModel.Email;
+        TipoPessoa = pessoaModel.TipoPessoa;
 
         IsAtivo = true;
     }

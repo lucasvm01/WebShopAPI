@@ -1,4 +1,5 @@
 ﻿using WebShopAPI.Domain.Models.Pedidos;
+using WebShopAPI.Domain.Validations;
 
 namespace WebShopAPI.Domain.Entities.Pedidos;
 
@@ -41,13 +42,8 @@ public partial class Pedido
 
     public void FecharPedido()
     {
-        // TODO Validacao para fechamento
+        Guard.Enforce(PodeFecharPedido(_produtos));
 
         DataFechamento = DateTime.Now;
     }
-
-    //public void CancelarPedido()
-    //{
-    //  IsAtivo = false? DataAbertura = 0? Excluir registro?
-    //}
 }
