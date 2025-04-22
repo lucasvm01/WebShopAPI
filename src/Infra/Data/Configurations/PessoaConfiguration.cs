@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WebShopAPI.Domain.Entities.Pessoas;
-using WebShopAPI.Domain.Entities.Usuarios;
 
 namespace WebShopAPI.Infra.Data.Configurations;
 
@@ -29,7 +28,7 @@ public class PessoaConfiguration : IEntityTypeConfiguration<Pessoa>
 
         builder.Property(p => p.TipoPessoa)
             .IsRequired()
-            .HasConversion<EnumToNumberConverter<Permissao, long>>();
+            .HasConversion<EnumToNumberConverter<TipoPessoa, long>>();
 
         builder.Property(p => p.IsAtivo)
             .IsRequired();
