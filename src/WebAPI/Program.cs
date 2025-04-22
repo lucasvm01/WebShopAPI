@@ -1,5 +1,5 @@
-using DotNetEnv;
 using FluentValidation;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using WebShopAPI.Application.Pedidos.Queries.GetPedido;
@@ -7,8 +7,6 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 using WebShopAPI.Infra.Data.Management;
 
-
-Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,18 +30,17 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 
     c.DescribeAllParametersInCamelCase();
+
+    // TODO Adicionar Auth
 });
 
-//Adiciona o contexto para gerar migration
-string connectionString = Environment.GetEnvironmentVariable("APP_DB_CONNECTION_STRING");
-
-if (string.IsNullOrEmpty(connectionString))
+builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    throw new InvalidOperationException("The connection string is not configured.");
-}
-
-builder.Services.AddDbContext<AppDbContext>(options => 
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("AppDbContext"),
+        b => b.MigrationsAssembly("WebShopAPI.Infra.Data")
+    );
+});
 
 var assembly = typeof(GetPedidoQuery).Assembly;
 builder.Services.AddMediatR(configuration =>
@@ -76,7 +73,6 @@ app.UseSwaggerUI();
 app.UseRouting();
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
