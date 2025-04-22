@@ -9,12 +9,12 @@ public partial class Pessoa
     {
         List<ValidacaoDominio> falhas = new();
 
-        if(model.Nome == null)
+        if(string.IsNullOrWhiteSpace(model.Nome))
         {
             falhas.Add(new ValidacaoDominio(model.Nome, "Campo está vazio"));
         }
 
-        if (model.CPF == null)
+        if (string.IsNullOrWhiteSpace(model.CPF))
         {
             falhas.Add(new ValidacaoDominio(model.CPF, "Campo está vazio"));
         }
@@ -23,7 +23,7 @@ public partial class Pessoa
             falhas.Add(new ValidacaoDominio(model.CPF, "CPF inválido"));
         }
 
-        if (model.Email == null)
+        if (string.IsNullOrWhiteSpace(model.Email))
         {
             falhas.Add(new ValidacaoDominio(model.Email, "Campo está vazio"));
         }

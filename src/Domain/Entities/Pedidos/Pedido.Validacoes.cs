@@ -31,6 +31,7 @@ public partial class Pedido
             falhas.Add(new ValidacaoDominio(produtoAdicionar.ToString(), "Campo está vazio"));
         }
 
+        // TODO
         //if (produtos == null && !PodeRetirarQuantidadeProduto(produto.QuantidadeProduto, quantidade))
         //{
 

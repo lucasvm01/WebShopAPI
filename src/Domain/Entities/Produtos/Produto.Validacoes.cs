@@ -9,7 +9,7 @@ public partial class Produto
     {
         List<ValidacaoDominio> falhas = new();
 
-        if (model.Descricao == null)
+        if (string.IsNullOrWhiteSpace(model.Descricao))
         {
             falhas.Add(new ValidacaoDominio(model.Descricao, "Campo está vazio"));
         }
@@ -26,7 +26,7 @@ public partial class Produto
     {
         List<ValidacaoDominio> falhas = new();
 
-        if(descricao == null)
+        if(string.IsNullOrWhiteSpace(descricao))
         {
             falhas.Add(new ValidacaoDominio(descricao, "Campo está vazio"));
         }
