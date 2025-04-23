@@ -35,7 +35,7 @@ namespace WebShopAPI.Infra.Data.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Descricao = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    Quantidade = table.Column<long>(type: "bigint", nullable: false),
+                    QuantidadeTotal = table.Column<long>(type: "bigint", nullable: false),
                     IsAtivo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>

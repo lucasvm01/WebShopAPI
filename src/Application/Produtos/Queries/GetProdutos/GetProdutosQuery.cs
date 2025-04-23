@@ -9,23 +9,17 @@ public class GetProdutosQuery : IRequest<List<Produto>>
 {
 }
 
-public class GetProdutosQueryHandler : IRequestHandler<GetProdutosQuery, List<Produto>>
+public class GetProdutosQueryHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<GetProdutosQuery, List<Produto>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public GetProdutosQueryHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<List<Produto>> Handle(GetProdutosQuery request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Produto>();
+        var repository = unitOfWork.GetRepository<Produto>();
 
-        var produto = await repository
+        var produtos = await repository
             .GetAll()
             .ToListAsync(cancellationToken);
 
-        return produto;
+        return produtos;
     }
 }

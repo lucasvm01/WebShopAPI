@@ -7,6 +7,8 @@ using WebShopAPI.Application.Pedidos.Commands.IniciarPedido;
 using WebShopAPI.Application.Pedidos.Commands.RemoverProdutosPedido;
 using WebShopAPI.Application.Pedidos.Queries.GetPedido;
 using WebShopAPI.Application.Pedidos.Queries.GetPedidos;
+using WebShopAPI.Application.Pedidos.Queries.GetPedidosFechados;
+using WebShopAPI.Application.Pedidos.Queries.GetPedidosIniciados;
 
 namespace WebShopAPI.WebAPI.Controllers.Pedido;
 
@@ -20,11 +22,10 @@ public class PedidosController : ApiController
     {
         var result = await Mediator.Send(command);
         return Created(
-            "pedido/", new
+            $"{result.Id}", new
             {
-                Succeeded = true,
-                Message = "Pedido iniciado com sucesso.",
-                Data = result,
+                result.PessoaId,
+                result.DataAbertura,
             }
         );
     }
@@ -41,8 +42,26 @@ public class PedidosController : ApiController
     }
 
     [HttpGet]
-    [SwaggerOperation("Mostrar todas os pedidos iniciados.")]
-    public async Task<IActionResult> GetPessoasAsync([FromBody] GetPedidosQuery query)
+    [SwaggerOperation("Mostrar todos os pedidos.")]
+    public async Task<IActionResult> GetPedidosAsync([FromQuery] GetPedidosQuery query)
+    {
+        var result = await Mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("iniciados")]
+    [SwaggerOperation("Mostrar todos os pedidos iniciados.")]
+    public async Task<IActionResult> GetPedidosIniciadosAsync([FromQuery] GetPedidosIniciadosQuery query)
+    {
+        var result = await Mediator.Send(query);
+
+        return Ok(result);
+    }
+
+    [HttpGet("fechados")]
+    [SwaggerOperation("Mostrar todos os pedidos fechados.")]
+    public async Task<IActionResult> GetPedidosFechadosAsync([FromQuery] GetPedidosFechadosQuery query)
     {
         var result = await Mediator.Send(query);
 
@@ -51,7 +70,7 @@ public class PedidosController : ApiController
 
     [HttpGet("{pedidoId:long}")]
     [SwaggerOperation("Mostrar pedido informado pelo identificador e os produtos adicionados a ele.")]
-    public async Task<IActionResult> GetPessoaAsync([FromRoute] long pedidoId, GetPedidoQuery query)
+    public async Task<IActionResult> GetProdutoAsync([FromRoute] long pedidoId, [FromQuery] GetPedidoQuery query)
     {
         var result = await Mediator.Send(query);
 

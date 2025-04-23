@@ -9,18 +9,13 @@ public class AlterarQuantidadeProdutoPedidoCommand : IRequest<Unit>
 {
     public PedidoProdutoDTO PedidoProduto { get; set; }
 }
-public class AlterarQuantidadeProdutoPedidoCommandHandler : IRequestHandler<AlterarQuantidadeProdutoPedidoCommand, Unit>
+
+public class AlterarQuantidadeProdutoPedidoCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<AlterarQuantidadeProdutoPedidoCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public AlterarQuantidadeProdutoPedidoCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Unit> Handle(AlterarQuantidadeProdutoPedidoCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Pedido>();
+        var repository = unitOfWork.GetRepository<Pedido>();
 
         var pedido = await repository
             .FindBy(p => p.Id == request.PedidoProduto.PedidoId)
@@ -28,7 +23,7 @@ public class AlterarQuantidadeProdutoPedidoCommandHandler : IRequestHandler<Alte
 
         pedido.AlterarQuantidadeProduto(request.PedidoProduto.ProdutoId, request.PedidoProduto.Quantidade);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }

@@ -11,18 +11,13 @@ public class CorrigirDescricaoProdutoCommand : IRequest<Unit>
 
     public string Descricao { get; set; }
 }
-public class CorrigirDescricaoProdutoCommandHandler : IRequestHandler<CorrigirDescricaoProdutoCommand, Unit>
+
+public class CorrigirDescricaoProdutoCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<CorrigirDescricaoProdutoCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CorrigirDescricaoProdutoCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Unit> Handle(CorrigirDescricaoProdutoCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Produto>();
+        var repository = unitOfWork.GetRepository<Produto>();
 
         var produto = await repository
             .FindBy(p => p.Id == request.ProdutoId)
@@ -30,7 +25,7 @@ public class CorrigirDescricaoProdutoCommandHandler : IRequestHandler<CorrigirDe
 
         produto.CorrigirDescricao(request.Descricao);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }

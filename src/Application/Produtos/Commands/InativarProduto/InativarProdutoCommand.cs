@@ -9,18 +9,13 @@ public class InativarProdutoCommand : IRequest<Unit>
 {
     public long ProdutoId { get; set; }
 }
-public class InativarProdutoCommandHandler : IRequestHandler<InativarProdutoCommand, Unit>
+
+public class InativarProdutoCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<InativarProdutoCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public InativarProdutoCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Unit> Handle(InativarProdutoCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Produto>();
+        var repository = unitOfWork.GetRepository<Produto>();
 
         var produto = await repository
             .FindBy(p => p.Id == request.ProdutoId)
@@ -28,7 +23,7 @@ public class InativarProdutoCommandHandler : IRequestHandler<InativarProdutoComm
 
         produto.InativarProduto();
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }

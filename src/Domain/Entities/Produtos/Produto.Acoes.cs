@@ -15,21 +15,21 @@ public partial class Produto
     {
         Guard.Enforce(PodeAlterarQuantidadeProduto(quantidade));
 
-        Quantidade = quantidade;
+        QuantidadeTotal = quantidade;
     }
 
     public void AumentarQuantidade(long quantidadeAumentar)
     {
         Guard.Enforce(PodeAlterarQuantidadeProduto(quantidadeAumentar));
 
-        Quantidade += quantidadeAumentar;
+        QuantidadeTotal += quantidadeAumentar;
     }
 
     public void DiminuirQuantidade(long quantidadeDiminuir)
     {
-        Guard.Enforce(PodeDiminuirQuantidadeProduto(Quantidade, quantidadeDiminuir));
+        Guard.Enforce(PodeDiminuirQuantidadeProduto(QuantidadeTotal, quantidadeDiminuir));
 
-        Quantidade -= quantidadeDiminuir;
+        QuantidadeTotal -= quantidadeDiminuir;
     }
 
     public void ReativarProduto()

@@ -9,18 +9,11 @@ public class GetPessoasQuery : IRequest<List<Pessoa>>
 {
 }
 
-public class GetPessoasQueryHandler : IRequestHandler<GetPessoasQuery, List<Pessoa>>
+public class GetPessoasQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPessoasQuery, List<Pessoa>>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public GetPessoasQueryHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<List<Pessoa>> Handle(GetPessoasQuery request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Pessoa>();
+        var repository = unitOfWork.GetRepository<Pessoa>();
 
         var pessoas = await repository
             .GetAll()

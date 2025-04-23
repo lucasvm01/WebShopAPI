@@ -6,14 +6,14 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Produtos.Commands.AumentarQuantidadeProduto;
 
-public class AlterarQuantidadeProdutoCommandValidator : ValidatorBase<AlterarQuantidadeProdutoCommand>
+public class AlterarQuantidadeProdutoCommandValidator : ValidatorBase<AlterarQuantidadeTotalProdutoCommand>
 {
     public AlterarQuantidadeProdutoCommandValidator(IUnitOfWork unitOfWork) : base(unitOfWork)
     {
-        RuleFor(p => p.Quantidade)
+        RuleFor(p => p.QuantidadeTotal)
             .GreaterThanOrEqualTo(0);
 
         RuleFor(p => p.ProdutoId)
-            .MustExist<AlterarQuantidadeProdutoCommand, Produto>(unitOfWork);
+            .MustExist<AlterarQuantidadeTotalProdutoCommand, Produto>(unitOfWork);
     }
 }

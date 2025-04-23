@@ -4,5 +4,5 @@ public class ProdutoModel
 {
     public string Descricao { get; set; }
 
-    public long Quantidade { get; set; }
+    public long QuantidadeTotal { get; set; }
 }

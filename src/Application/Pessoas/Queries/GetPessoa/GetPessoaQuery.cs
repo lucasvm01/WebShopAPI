@@ -10,18 +10,11 @@ public class GetPessoaQuery : IRequest<Pessoa>
     public long PessoaId { get; set; }
 }
 
-public class GetPessoaQueryHandler : IRequestHandler<GetPessoaQuery, Pessoa>
+public class GetPessoaQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPessoaQuery, Pessoa>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public GetPessoaQueryHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public Task<Pessoa> Handle(GetPessoaQuery request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Pessoa>();
+        var repository = unitOfWork.GetRepository<Pessoa>();
 
         var pessoa = repository
             .FindBy(p => p.Id == request.PessoaId)
@@ -30,5 +23,4 @@ public class GetPessoaQueryHandler : IRequestHandler<GetPessoaQuery, Pessoa>
 
         return pessoa;
     }
-
 }

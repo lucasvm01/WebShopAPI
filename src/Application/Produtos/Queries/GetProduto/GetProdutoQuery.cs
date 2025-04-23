@@ -10,18 +10,12 @@ public class GetProdutoQuery : IRequest<Produto>
     public long ProdutoId { get; set; }
 }
 
-public class GetProdutoQueryHandler : IRequestHandler<GetProdutoQuery, Produto>
+public class GetProdutoQueryHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<GetProdutoQuery, Produto>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public GetProdutoQueryHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public Task<Produto> Handle(GetProdutoQuery request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Produto>();
+        var repository = unitOfWork.GetRepository<Produto>();
 
         var produto = repository
             .FindBy(p => p.Id == request.ProdutoId)

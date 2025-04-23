@@ -11,18 +11,14 @@ public class RemoverProdutoPedidoCommand : IRequest<Unit>
 
     public long ProdutoId { get; set; }
 }
-public class RemoverProdutoPedidoCommandHandler : IRequestHandler<RemoverProdutoPedidoCommand, Unit>
-{
-    private readonly IUnitOfWork _unitOfWork;
 
-    public RemoverProdutoPedidoCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
+public class RemoverProdutoPedidoCommandHandler(IUnitOfWork unitOfWork) 
+    : IRequestHandler<RemoverProdutoPedidoCommand, Unit>
+{
 
     public async Task<Unit> Handle(RemoverProdutoPedidoCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Pedido>();
+        var repository = unitOfWork.GetRepository<Pedido>();
 
         var pedido= await repository
             .FindBy(p => p.Id == request.PedidoId)
@@ -30,7 +26,7 @@ public class RemoverProdutoPedidoCommandHandler : IRequestHandler<RemoverProduto
 
         pedido.RemoverProduto(request.ProdutoId);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }

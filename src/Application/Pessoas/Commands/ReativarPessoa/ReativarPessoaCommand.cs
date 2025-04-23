@@ -10,18 +10,12 @@ public class ReativarPessoaCommand : IRequest<Unit>
     public long PessoaId { get; set; }
 }
 
-public class ReativarPessoaCommandHandler : IRequestHandler<ReativarPessoaCommand, Unit>
+public class ReativarPessoaCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<ReativarPessoaCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public ReativarPessoaCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Unit> Handle(ReativarPessoaCommand request, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Pessoa>();
+        var repository = unitOfWork.GetRepository<Pessoa>();
 
         var pessoa = await repository
             .FindBy(p => p.Id == request.PessoaId)
@@ -29,7 +23,7 @@ public class ReativarPessoaCommandHandler : IRequestHandler<ReativarPessoaComman
 
         pessoa.ReativarPessoa();
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }

@@ -1,8 +1,9 @@
 using FluentValidation;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using WebShopAPI.Application.Pedidos.Queries.GetPedido;
+using System.Reflection;
+using WebShopAPI.Application.Common;
+using WebShopAPI.Application.Pedidos;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 using WebShopAPI.Infra.Data.Management;
@@ -30,8 +31,6 @@ builder.Services.AddSwaggerGen(c =>
     c.EnableAnnotations();
 
     c.DescribeAllParametersInCamelCase();
-
-    // TODO Adicionar Auth
 });
 
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -42,15 +41,18 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     );
 });
 
-var assembly = typeof(GetPedidoQuery).Assembly;
+var assembly = typeof(PedidoDto).Assembly;
+
 builder.Services.AddMediatR(configuration =>
 {
     configuration.RegisterServicesFromAssembly(assembly);
 });
+
 builder.Services.AddValidatorsFromAssembly(assembly);
 
+builder.Services.AddMappings(assembly);
 
-builder.Services.AddTransient<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 

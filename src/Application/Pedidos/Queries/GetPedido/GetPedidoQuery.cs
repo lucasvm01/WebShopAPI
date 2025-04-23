@@ -1,33 +1,32 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebShopAPI.Domain.Entities.Pedidos;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Pedidos.Queries.GetPedido;
 
-public class GetPedidoQuery : IRequest<Pedido>
+public class GetPedidoQuery : IRequest<PedidoDto>
 {
     public long PedidoId { get; set; }
 }
 
-public class GetPedidoQueryHandler : IRequestHandler<GetPedidoQuery, Pedido>
+public class GetPedidoQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    : IRequestHandler<GetPedidoQuery, PedidoDto>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public GetPedidoQueryHandler(IUnitOfWork unitOfWork)
+    public async Task<PedidoDto> Handle(GetPedidoQuery request, CancellationToken cancellationToken)
     {
-        _unitOfWork = unitOfWork;
-    }
+        var repository = unitOfWork.GetRepository<Pedido>();
 
-    public Task<Pedido> Handle(GetPedidoQuery request, CancellationToken cancellationToken)
-    {
-        var repository = _unitOfWork.GetRepository<Pedido>();
-
-        var pedido = repository
+        var pedido = await repository
             .FindBy(p => p.Id == request.PedidoId)
-            .Include(x => x.Produtos)
+            .Include(p => p.Pessoa)
+            .Include(p => p.PedidoProdutos)
+                .ThenInclude(t => t.Produto)
             .FirstAsync(cancellationToken);
 
-        return pedido;
+        var pedidoDto = mapper.Map<PedidoDto>(pedido);
+
+        return pedidoDto;
     }
 }

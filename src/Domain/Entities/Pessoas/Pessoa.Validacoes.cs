@@ -28,7 +28,7 @@ public partial class Pessoa
             falhas.Add(new ValidacaoDominio(model.Email, "Campo está vazio"));
         }
 
-        if (Enum.IsDefined(typeof(TipoPessoa), model.TipoPessoa))
+        if (!Enum.IsDefined(typeof(TipoPessoa), model.TipoPessoa))
         {
             falhas.Add(new ValidacaoDominio(model.TipoPessoa.ToString(), "Tipo da pessoa inválido"));
         }

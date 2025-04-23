@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore;
 using WebShopAPI.Domain.Entities.Pedidos;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 
-namespace WebShopAPI.Application.Pedidos.Queries.GetPedidos;
+namespace WebShopAPI.Application.Pedidos.Queries.GetPedidosFechados;
 
-public class GetPedidosQuery : IRequest<List<PedidoDto>>
+public class GetPedidosFechadosQuery : IRequest<List<PedidoDto>>
 {
 }
 
-public class GetPedidosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
-    : IRequestHandler<GetPedidosQuery, List<PedidoDto>>
+public class GetPedidosFechadosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    : IRequestHandler<GetPedidosFechadosQuery, List<PedidoDto>>
 {
-    public async Task<List<PedidoDto>> Handle(GetPedidosQuery request, CancellationToken cancellationToken)
+    public async Task<List<PedidoDto>> Handle(GetPedidosFechadosQuery request, CancellationToken cancellationToken)
     {
         var repository = unitOfWork.GetRepository<Pedido>();
 
@@ -22,6 +22,7 @@ public class GetPedidosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
             .Include(p => p.Pessoa)
             .Include(p => p.PedidoProdutos)
                 .ThenInclude(x => x.Produto)
+            .Where(p => p.DataFechamento != null)
             .ToListAsync(cancellationToken);
 
         var pedidoDtos = mapper.Map<List<PedidoDto>>(pedidos);

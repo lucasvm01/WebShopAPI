@@ -9,29 +9,23 @@ public class CadastrarProdutoCommand : IRequest<Produto>
 {
     public string Descricao {  get; set; }
 
-    public long Quantidade { get; set; }
+    public long QuantidadeTotal { get; set; }
 }
 
-public class CadastrarProdutoCommandHandler : IRequestHandler<CadastrarProdutoCommand, Produto>
+public class CadastrarProdutoCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<CadastrarProdutoCommand, Produto>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CadastrarProdutoCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Produto> Handle(CadastrarProdutoCommand request, CancellationToken cancellationToken)
     {
         var produtoModel = CriarProdutoModel(request);
 
         var produto = new Produto(produtoModel);
 
-        var repository = _unitOfWork.GetRepository<Produto>();
+        var repository = unitOfWork.GetRepository<Produto>();
 
         repository.Add(produto);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return produto;
     }
@@ -41,7 +35,7 @@ public class CadastrarProdutoCommandHandler : IRequestHandler<CadastrarProdutoCo
         var model = new ProdutoModel
         {
             Descricao = request.Descricao,
-            Quantidade = request.Quantidade,
+            QuantidadeTotal = request.QuantidadeTotal,
         };
 
         return model;

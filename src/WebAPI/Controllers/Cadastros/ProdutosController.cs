@@ -17,19 +17,12 @@ public class ProdutosController : ApiController
     public async Task<IActionResult> PostCadastrarProdutoAsync([FromBody] CadastrarProdutoCommand command)
     {
         var result = await Mediator.Send(command);
-        return Created(
-            "produtos/", new
-            {
-                Succeeded = true,
-                Message = "Produto cadastrado com sucesso.",
-                Data = result,
-            }
-        );
+        return Created($"{result.Id}", result);
     }
 
     [HttpGet]
     [SwaggerOperation("Mostrar todas os produtos cadastrados.")]
-    public async Task<IActionResult> GetProdutosAsync([FromBody] GetProdutosQuery query)
+    public async Task<IActionResult> GetProdutosAsync([FromQuery] GetProdutosQuery query)
     {
         var result = await Mediator.Send(query);
 
@@ -39,7 +32,7 @@ public class ProdutosController : ApiController
 
     [HttpGet("{produtoId:long}")]
     [SwaggerOperation("Mostrar produto informado pelo identificador.")]
-    public async Task<IActionResult> GetProdutoAsync([FromRoute] long produtoId, GetProdutoQuery query)
+    public async Task<IActionResult> GetProdutoAsync([FromRoute] long produtoId, [FromQuery] GetProdutoQuery query)
     {
         var result = await Mediator.Send(query);
 
@@ -59,7 +52,7 @@ public class ProdutosController : ApiController
 
     [HttpPut("{produtoId:long}/alterar-quantidade")]
     [SwaggerOperation("Alterar a quantidade de um produto informado pelo identificador.")]
-    public async Task<IActionResult> PutAlterarQuantidadeProdutoAsync([FromRoute] long produtoId, [FromBody] AlterarQuantidadeProdutoCommand command)
+    public async Task<IActionResult> PutAlterarQuantidadeTotalProdutoAsync([FromRoute] long produtoId, [FromBody] AlterarQuantidadeTotalProdutoCommand command)
     {
         if (produtoId != command.ProdutoId) return BadRequest();
 

@@ -18,11 +18,15 @@ public partial class Pedido
         {
             falhas.Add(new ValidacaoDominio(pessoa.ToString(), "O pedido só pode ser feito para um cliente"));
         }
+        if (!pessoa.IsAtivo)
+        {
+            falhas.Add(new ValidacaoDominio(pessoa.ToString(), "O cliente deve estar ativo"));
+        }
 
         return falhas;
     }
 
-    private static List<ValidacaoDominio> PodeAdicionarProduto(Produto produtoAdicionar, long quantidade, List<PedidoProduto> produtos)
+    private static List<ValidacaoDominio> PodeAdicionarProduto(Produto produtoAdicionar, long quantidade)
     {
         List<ValidacaoDominio> falhas = new();
 
@@ -31,30 +35,19 @@ public partial class Pedido
             falhas.Add(new ValidacaoDominio(produtoAdicionar.ToString(), "Campo está vazio"));
         }
 
-        // TODO
-        //if (produtos == null && !PodeRetirarQuantidadeProduto(produto.QuantidadeProduto, quantidade))
-        //{
-
-        //}
-        else
+        if (!produtoAdicionar.IsAtivo)
         {
-            foreach (var produto in produtos)
-            {
-                if (produto.Id == produtoAdicionar.Id &&
-                    !PodeRetirarQuantidadeProduto(produto.QuantidadeProduto, quantidade))
-                {
-                    falhas.Add(new ValidacaoDominio(produtoAdicionar.ToString(), "Não há quantidade de produtos o suficiente para adicionar ao pedido"));
-                    break;
-                }
-            }
+            falhas.Add(new ValidacaoDominio(produtoAdicionar.ToString(), "O produto deve estar ativo"));
+        }
+
+        if (!PodeRetirarQuantidadeTotalProduto(produtoAdicionar.QuantidadeTotal, quantidade))
+        {
+            falhas.Add(new ValidacaoDominio(
+                produtoAdicionar.ToString(),
+                $"Não há quantidade do produto {produtoAdicionar.Descricao} o suficiente para adicionar ao pedido"));
         }
 
         return falhas;
-    }
-
-    private static bool PodeRetirarQuantidadeProduto(long quantidadeProduto, long quantidadeRetirar)
-    {
-        return quantidadeProduto - quantidadeRetirar < 0;
     }
 
     private static List<ValidacaoDominio> PodeRemoverProduto(Produto produtoAdicionar, long quantidade, List<PedidoProduto> produtos)
@@ -64,14 +57,6 @@ public partial class Pedido
         if (produtoAdicionar == null)
         {
             falhas.Add(new ValidacaoDominio(produtoAdicionar.ToString(), "Campo está vazio"));
-        }
-
-        foreach (var produto in produtos)
-        {
-            if (produto.Id == produtoAdicionar.Id && produto.QuantidadeProduto - quantidade < 0)
-            {
-
-            }
         }
 
         return falhas;
@@ -86,14 +71,31 @@ public partial class Pedido
             falhas.Add(new ValidacaoDominio(produtos.ToString(), "Não é possível fechar pedido sem produtos vinculados"));
         }
 
-        foreach (var produto in produtos) 
+        foreach (var pedidoProduto in produtos) 
         {
-            if (produto.QuantidadeProduto <= 0) 
+            if (!PodeRetirarQuantidadeTotalProduto(pedidoProduto.Produto.QuantidadeTotal, pedidoProduto.QuantidadeProduto)) 
             {
-                falhas.Add(new ValidacaoDominio(produtos.ToString(), $"Favor incluir uma quantidade ao produto {produto.ProdutoId}"));
+                falhas.Add(new ValidacaoDominio(produtos.ToString(), "Não há quantidade do produto suficiente"));
             }
         }
 
         return falhas;
+    }
+
+    private static List<ValidacaoDominio> PedidoNotIsAtivo(DateTime dataAbertura, DateTime? dataFechamento)
+    {
+        List<ValidacaoDominio> falhas = new();
+
+        if (dataFechamento != null)
+        {
+            falhas.Add(new ValidacaoDominio(dataAbertura.ToString(), "Não há quantidade do produto suficiente"));
+        }
+
+        return falhas;
+    }
+
+    private static bool PodeRetirarQuantidadeTotalProduto(long quantidadeTotalProduto, long quantidadeRetirar)
+    {
+        return quantidadeTotalProduto > quantidadeRetirar;
     }
 }

@@ -14,9 +14,9 @@ public partial class Produto
             falhas.Add(new ValidacaoDominio(model.Descricao, "Campo está vazio"));
         }
 
-        if (model.Quantidade < 0)
+        if (model.QuantidadeTotal < 0)
         {
-            falhas.Add(new ValidacaoDominio(model.Quantidade.ToString(), "Quantidade deve ser maior que zero"));
+            falhas.Add(new ValidacaoDominio(model.QuantidadeTotal.ToString(), "Quantidade deve ser maior que zero"));
         }
 
         return falhas;

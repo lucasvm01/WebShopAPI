@@ -17,7 +17,7 @@ public class ProdutoConfiguration : IEntityTypeConfiguration<Produto>
             .IsRequired()
             .HasMaxLength(30);
 
-        builder.Property(p => p.Quantidade);
+        builder.Property(p => p.QuantidadeTotal);
 
         builder.Property(p => p.IsAtivo)
             .IsRequired();

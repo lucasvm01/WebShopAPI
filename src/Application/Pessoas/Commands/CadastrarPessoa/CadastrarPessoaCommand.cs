@@ -16,26 +16,20 @@ public class CadastrarPessoaCommand : IRequest<Pessoa>
     public TipoPessoa TipoPessoa { get; set; }
 }
 
-public class CadastrarPessoaCommandHandler : IRequestHandler<CadastrarPessoaCommand, Pessoa>
+public class CadastrarPessoaCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<CadastrarPessoaCommand, Pessoa>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CadastrarPessoaCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Pessoa> Handle(CadastrarPessoaCommand request, CancellationToken cancellationToken)
     {
         var pessoaModel = CriarPessoaModel(request);
 
         var pessoa = new Pessoa(pessoaModel);
 
-        var repository = _unitOfWork.GetRepository<Pessoa>();
+        var repository = unitOfWork.GetRepository<Pessoa>();
 
         repository.Add(pessoa);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return pessoa;
     }

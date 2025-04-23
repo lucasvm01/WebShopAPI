@@ -1,7 +1,7 @@
 ﻿namespace WebShopAPI.Domain.Entities.Pessoas;
 
 public enum TipoPessoa{
-    IsCliente,
+    IsCliente = 1,
 
-    IsFuncionario,
+    IsFuncionario = 2,
 }

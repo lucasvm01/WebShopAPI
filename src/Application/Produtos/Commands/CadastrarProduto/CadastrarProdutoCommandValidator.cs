@@ -13,7 +13,7 @@ public class CadastrarProdutoCommandValidator : ValidatorBase<CadastrarProdutoCo
             .MinimumLength(5)
             .MaximumLength(50);
 
-        RuleFor(p => p.Quantidade)
+        RuleFor(p => p.QuantidadeTotal)
             .GreaterThanOrEqualTo(0);
     }
 }

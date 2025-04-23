@@ -12,7 +12,7 @@ using WebShopAPI.Infra.Data.Context;
 namespace WebShopAPI.Infra.Data.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250422185135_InitialMigration")]
+    [Migration("20250423031828_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -125,7 +125,7 @@ namespace WebShopAPI.Infra.Data.Migrations
                     b.Property<bool>("IsAtivo")
                         .HasColumnType("bit");
 
-                    b.Property<long>("Quantidade")
+                    b.Property<long>("QuantidadeTotal")
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
@@ -147,7 +147,7 @@ namespace WebShopAPI.Infra.Data.Migrations
             modelBuilder.Entity("WebShopAPI.Domain.Entities.Pedidos.PedidoProduto", b =>
                 {
                     b.HasOne("WebShopAPI.Domain.Entities.Pedidos.Pedido", "Pedido")
-                        .WithMany("Produtos")
+                        .WithMany("PedidoProdutos")
                         .HasForeignKey("PedidoId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -165,7 +165,7 @@ namespace WebShopAPI.Infra.Data.Migrations
 
             modelBuilder.Entity("WebShopAPI.Domain.Entities.Pedidos.Pedido", b =>
                 {
-                    b.Navigation("Produtos");
+                    b.Navigation("PedidoProdutos");
                 });
 
             modelBuilder.Entity("WebShopAPI.Domain.Entities.Pessoas.Pessoa", b =>

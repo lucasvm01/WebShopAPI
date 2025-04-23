@@ -19,20 +19,14 @@ public class CorrigirDadosBasicosPessoaCommand : IRequest<Unit>
     public TipoPessoa TipoPessoa { get; set; }
 }
 
-public class CorrigirDadosBasicosPessoaCommandHandler : IRequestHandler<CorrigirDadosBasicosPessoaCommand, Unit>
+public class CorrigirDadosBasicosPessoaCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<CorrigirDadosBasicosPessoaCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public CorrigirDadosBasicosPessoaCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Unit> Handle(CorrigirDadosBasicosPessoaCommand request, CancellationToken cancellationToken)
     {
         var pessoaModel = CriarPessoaModel(request);
 
-        var repository = _unitOfWork.GetRepository<Pessoa>();
+        var repository = unitOfWork.GetRepository<Pessoa>();
 
         var pessoa = await repository
             .FindBy(p => p.Id == request.PessoaId)
@@ -40,7 +34,7 @@ public class CorrigirDadosBasicosPessoaCommandHandler : IRequestHandler<Corrigir
 
         pessoa.CorrigirDadosBasicosPessoa(pessoaModel);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }

@@ -7,23 +7,37 @@ public partial class Pedido
 {
     public void AdicionarProduto(PedidoProdutoAdicionarModel model)
     {
-        var pedidoProduto = new PedidoProduto
-        {
-            Pedido = this,
-            Produto = model.Produto,
-            QuantidadeProduto = model.Quantidade,
-        };
+        Guard.Enforce(PedidoNotIsAtivo(DataAbertura, DataFechamento));
+        Guard.Enforce(PodeAdicionarProduto(model.Produto, model.Quantidade));
 
-        _produtos.Add(pedidoProduto);
+        var pedidoProduto = _pedidoProdutos.FirstOrDefault(p => p.ProdutoId == model.Produto.Id);
+        
+        if(pedidoProduto == null)
+        {
+            var pedidoProdutoAdicionar = new PedidoProduto
+            {
+                Pedido = this,
+                Produto = model.Produto,
+                QuantidadeProduto = model.Quantidade,
+            };
+
+            _pedidoProdutos.Add(pedidoProdutoAdicionar);
+        }
+        else
+        {
+            pedidoProduto.Produto.DiminuirQuantidade(model.Quantidade);
+        }
     }
 
     public void RemoverProduto(long produtoId)
     {
-        var produto = _produtos.First(p => p.Id == produtoId);
+        var pedidoProduto = _pedidoProdutos.First(p => p.Id == produtoId);
 
-        produto.QuantidadeProduto = 0;
+        pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
 
-        _produtos.Remove(produto);
+        pedidoProduto.QuantidadeProduto = 0;
+
+        _pedidoProdutos.Remove(pedidoProduto);
     }
 
     public void AlterarQuantidadeProduto(long produtoId, long quantidadeNova)
@@ -34,7 +48,7 @@ public partial class Pedido
         }
         else
         {
-            var produto = _produtos.First(p => p.Id == produtoId);
+            var produto = _pedidoProdutos.First(p => p.Id == produtoId);
 
             produto.QuantidadeProduto = quantidadeNova;
         }
@@ -42,7 +56,7 @@ public partial class Pedido
 
     public void FecharPedido()
     {
-        Guard.Enforce(PodeFecharPedido(_produtos));
+        Guard.Enforce(PodeFecharPedido(_pedidoProdutos));
 
         DataFechamento = DateTime.Now;
     }

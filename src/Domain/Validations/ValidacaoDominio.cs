@@ -24,6 +24,8 @@ public static class Guard
     {
         if (falhas == null) return;
         if (falhas.Count == 0) return;
-        throw new Exception(falhas.ToString());
+
+        var errorMessage = string.Join(", ", falhas.Select(f => $"{f.Propriedade}: {f.Mensagem}"));
+        throw new Exception(errorMessage);
     }
 }

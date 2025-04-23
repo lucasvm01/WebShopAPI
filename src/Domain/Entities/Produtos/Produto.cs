@@ -12,7 +12,7 @@ public partial class Produto : BaseEntity<long>, IAggregateRoot
         Guard.Enforce(PodeCadastrarProduto(produtoModel));
 
         Descricao = produtoModel.Descricao;
-        Quantidade = produtoModel.Quantidade;
+        QuantidadeTotal = produtoModel.QuantidadeTotal;
 
         IsAtivo = true;
     }
@@ -24,7 +24,7 @@ public partial class Produto : BaseEntity<long>, IAggregateRoot
 
     public string Descricao { get; set; }
 
-    public long Quantidade { get; private set; }
+    public long QuantidadeTotal { get; private set; }
 
     public bool IsAtivo { get; private set; }
 

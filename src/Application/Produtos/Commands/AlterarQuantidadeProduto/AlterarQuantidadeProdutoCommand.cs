@@ -5,33 +5,27 @@ using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Produtos.Commands.AumentarQuantidadeProduto;
 
-public class AlterarQuantidadeProdutoCommand : IRequest<Unit>
+public class AlterarQuantidadeTotalProdutoCommand : IRequest<Unit>
 {
     public long ProdutoId { get; set; }
 
-    public long Quantidade { get; set; }
+    public long QuantidadeTotal { get; set; }
 }
 
-public class AlterarQuantidadeProdutoCommandHandler : IRequestHandler<AlterarQuantidadeProdutoCommand, Unit>
+public class AlterarQuantidadeTotalProdutoCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<AlterarQuantidadeTotalProdutoCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public AlterarQuantidadeProdutoCommandHandler(IUnitOfWork unitOfWork)
+    public async Task<Unit> Handle(AlterarQuantidadeTotalProdutoCommand request, CancellationToken cancellationToken)
     {
-        _unitOfWork = unitOfWork;
-    }
-
-    public async Task<Unit> Handle(AlterarQuantidadeProdutoCommand request, CancellationToken cancellationToken)
-    {
-        var repository = _unitOfWork.GetRepository<Produto>();
+        var repository = unitOfWork.GetRepository<Produto>();
 
         var produto = await repository
             .FindBy(p => p.Id == request.ProdutoId)
             .FirstAsync(cancellationToken);
 
-        produto.AlterarQuantidade(request.Quantidade);
+        produto.AlterarQuantidade(request.QuantidadeTotal);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }

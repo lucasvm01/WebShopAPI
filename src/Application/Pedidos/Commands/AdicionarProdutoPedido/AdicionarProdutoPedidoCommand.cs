@@ -11,22 +11,17 @@ public class AdicionarProdutoPedidoCommand : IRequest<Unit>
 {
     public PedidoProdutoDTO PedidoProduto { get; set; }
 }
-public class AdicionarProdutosPedidoCommandHandler : IRequestHandler<AdicionarProdutoPedidoCommand, Unit>
+
+public class AdicionarProdutosPedidoCommandHandler(IUnitOfWork unitOfWork)
+    : IRequestHandler<AdicionarProdutoPedidoCommand, Unit>
 {
-    private readonly IUnitOfWork _unitOfWork;
-
-    public AdicionarProdutosPedidoCommandHandler(IUnitOfWork unitOfWork)
-    {
-        _unitOfWork = unitOfWork;
-    }
-
     public async Task<Unit> Handle(AdicionarProdutoPedidoCommand request, CancellationToken cancellationToken)
     {
         var produtoAdicionar = await BuscarProduto(request.PedidoProduto.ProdutoId, cancellationToken);
 
         var pedidoProdutoModel = CriarPedidoProdutoModel(produtoAdicionar, request.PedidoProduto.Quantidade);
 
-        var repository = _unitOfWork.GetRepository<Pedido>();
+        var repository = unitOfWork.GetRepository<Pedido>();
 
         var pedido = await repository
             .FindBy(p => p.Id == request.PedidoProduto.PedidoId)
@@ -34,14 +29,14 @@ public class AdicionarProdutosPedidoCommandHandler : IRequestHandler<AdicionarPr
 
         pedido.AdicionarProduto(pedidoProdutoModel);
 
-        await _unitOfWork.CommitAsync();
+        await unitOfWork.CommitAsync();
 
         return Unit.Value;
     }
 
     public async Task<Produto> BuscarProduto(long produtoId, CancellationToken cancellationToken)
     {
-        var repository = _unitOfWork.GetRepository<Produto>();
+        var repository = unitOfWork.GetRepository<Produto>();
 
         var produto = await repository
             .FindBy(p => p.Id == produtoId)

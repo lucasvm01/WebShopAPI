@@ -16,19 +16,12 @@ public class PessoasController : ApiController
     public async Task<IActionResult> PostCadastrarPessoaAsync([FromBody] CadastrarPessoaCommand command)
     {
         var result = await Mediator.Send(command);
-        return Created(
-            "pessoas/", new
-            {
-                Succeeded = true,
-                Message = "Pessoa cadastrada com sucesso.",
-                Data = result,
-            }
-        );
+        return Created($"{result.Id}", result);
     }
 
     [HttpGet]
     [SwaggerOperation("Mostrar todas as pessoas cadastradas.")]
-    public async Task<IActionResult> GetPessoasAsync([FromBody] GetPessoasQuery query)
+    public async Task<IActionResult> GetPessoasAsync([FromQuery] GetPessoasQuery query)
     {
         var result = await Mediator.Send(query);
 
@@ -38,7 +31,7 @@ public class PessoasController : ApiController
 
     [HttpGet("{pessoaId:long}")]
     [SwaggerOperation("Mostrar pessoa informada pelo identificador.")]
-    public async Task<IActionResult> GetPessoaAsync([FromRoute] long pessoaId, GetPessoaQuery query)
+    public async Task<IActionResult> GetPessoaAsync([FromRoute] long pessoaId, [FromQuery] GetPessoaQuery query)
     {
         var result = await Mediator.Send(query);
 
