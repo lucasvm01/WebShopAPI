@@ -1,26 +1,29 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Pessoas.Queries.GetPessoa;
 
-public class GetPessoaQuery : IRequest<Pessoa>
+public class GetPessoaQuery : IRequest<PessoaDto>
 {
     public long PessoaId { get; set; }
 }
 
-public class GetPessoaQueryHandler(IUnitOfWork unitOfWork) : IRequestHandler<GetPessoaQuery, Pessoa>
+public class GetPessoaQueryHandler(IUnitOfWork unitOfWork, IMapper mapper) 
+    : IRequestHandler<GetPessoaQuery, PessoaDto>
 {
-    public Task<Pessoa> Handle(GetPessoaQuery request, CancellationToken cancellationToken)
+    public async Task<PessoaDto> Handle(GetPessoaQuery request, CancellationToken cancellationToken)
     {
         var repository = unitOfWork.GetRepository<Pessoa>();
 
-        var pessoa = repository
+        var pessoa = await repository
             .FindBy(p => p.Id == request.PessoaId)
-            .Include(p => p.Pedidos)
             .FirstAsync(cancellationToken);
 
-        return pessoa;
+        var pessoaDto = mapper.Map<PessoaDto>(pessoa);
+
+        return pessoaDto;
     }
 }

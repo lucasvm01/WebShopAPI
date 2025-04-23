@@ -1,18 +1,19 @@
-﻿using MediatR;
+﻿using AutoMapper;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using WebShopAPI.Domain.Entities.Produtos;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 
 namespace WebShopAPI.Application.Produtos.Queries.GetProdutos;
 
-public class GetProdutosQuery : IRequest<List<Produto>>
+public class GetProdutosQuery : IRequest<List<ProdutoDto>>
 {
 }
 
-public class GetProdutosQueryHandler(IUnitOfWork unitOfWork)
-    : IRequestHandler<GetProdutosQuery, List<Produto>>
+public class GetProdutosQueryHandler(IUnitOfWork unitOfWork, IMapper mapper)
+    : IRequestHandler<GetProdutosQuery, List<ProdutoDto>>
 {
-    public async Task<List<Produto>> Handle(GetProdutosQuery request, CancellationToken cancellationToken)
+    public async Task<List<ProdutoDto>> Handle(GetProdutosQuery request, CancellationToken cancellationToken)
     {
         var repository = unitOfWork.GetRepository<Produto>();
 
@@ -20,6 +21,8 @@ public class GetProdutosQueryHandler(IUnitOfWork unitOfWork)
             .GetAll()
             .ToListAsync(cancellationToken);
 
-        return produtos;
+        var produtosDto = mapper.Map<List<ProdutoDto>>(produtos);
+
+        return produtosDto;
     }
 }

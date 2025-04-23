@@ -1,9 +1,10 @@
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
-using System.Reflection;
 using WebShopAPI.Application.Common;
 using WebShopAPI.Application.Pedidos;
+using WebShopAPI.Application.Pessoas;
+using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 using WebShopAPI.Infra.Data.Management;
@@ -50,7 +51,8 @@ builder.Services.AddMediatR(configuration =>
 
 builder.Services.AddValidatorsFromAssembly(assembly);
 
-builder.Services.AddMappings(assembly);
+builder.Services.AddMappings(assembly); 
+//builder.Services.AddMappings(typeof(PessoaDto).Assembly);
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
@@ -68,7 +70,6 @@ using (var scope = app.Services.CreateScope())
 }
 
 // Configure the HTTP request pipeline.
-
 app.UseSwagger();
 app.UseSwaggerUI();
 

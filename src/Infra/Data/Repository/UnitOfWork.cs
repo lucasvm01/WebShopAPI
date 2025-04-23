@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WebShopAPI.Domain.Interfaces.Infrastructure;
+﻿using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 
 namespace WebShopAPI.Infra.Data.Management;

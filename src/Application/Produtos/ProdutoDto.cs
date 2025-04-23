@@ -15,6 +15,8 @@ public class ProdutoDto : IMapFrom<Produto>
     public void Mapping(Profile profile)
     {
         profile.CreateMap<Produto, ProdutoDto>()
-            .ForMember(d => d.ProdutoId, opt => opt.MapFrom(p => p.Id));
+            .ForMember(d => d.ProdutoId, opt => opt.MapFrom(p => p.Id))
+            .ForMember(d => d.Descricao, opt => opt.MapFrom(p => p.Descricao))
+            .ForMember(d => d.IsAtivo, opt => opt.MapFrom(p => p.IsAtivo));
     }
 }

@@ -22,7 +22,7 @@ public class GetPedidosIniciadosQueryHandler(IUnitOfWork unitOfWork, IMapper map
             .Include(p => p.Pessoa)
             .Include(p => p.PedidoProdutos)
                 .ThenInclude(x => x.Produto)
-            .Where(p => p.DataFechamento != null)
+            .Where(p => p.DataFechamento == null)
             .ToListAsync(cancellationToken);
 
         var pedidoDtos = mapper.Map<List<PedidoDto>>(pedidos);

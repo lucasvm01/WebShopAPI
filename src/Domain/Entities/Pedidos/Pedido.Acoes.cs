@@ -7,7 +7,7 @@ public partial class Pedido
 {
     public void AdicionarProduto(PedidoProdutoAdicionarModel model)
     {
-        Guard.Enforce(PedidoNotIsAtivo(DataAbertura, DataFechamento));
+        Guard.Enforce(PedidoIsAtivo(DataFechamento));
         Guard.Enforce(PodeAdicionarProduto(model.Produto, model.Quantidade));
 
         var pedidoProduto = _pedidoProdutos.FirstOrDefault(p => p.ProdutoId == model.Produto.Id);
@@ -31,7 +31,9 @@ public partial class Pedido
 
     public void RemoverProduto(long produtoId)
     {
-        var pedidoProduto = _pedidoProdutos.First(p => p.Id == produtoId);
+        var pedidoProduto = _pedidoProdutos.FirstOrDefault(p => p.Id == produtoId);
+
+        Guard.Enforce(PodeRemoverProduto(pedidoProduto, DataFechamento));
 
         pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
 
@@ -42,6 +44,8 @@ public partial class Pedido
 
     public void AlterarQuantidadeProduto(long produtoId, long quantidadeNova)
     {
+        Guard.Enforce(PodeAlterarQuantidadeProduto(quantidadeNova));
+
         if (quantidadeNova == 0)
         {
             RemoverProduto(produtoId);
@@ -56,7 +60,7 @@ public partial class Pedido
 
     public void FecharPedido()
     {
-        Guard.Enforce(PodeFecharPedido(_pedidoProdutos));
+        Guard.Enforce(PodeFecharPedido(_pedidoProdutos, DataFechamento));
 
         DataFechamento = DateTime.Now;
     }

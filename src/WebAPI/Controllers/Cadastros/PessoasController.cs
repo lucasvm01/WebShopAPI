@@ -28,7 +28,6 @@ public class PessoasController : ApiController
         return Ok(result);
     }
 
-
     [HttpGet("{pessoaId:long}")]
     [SwaggerOperation("Mostrar pessoa informada pelo identificador.")]
     public async Task<IActionResult> GetPessoaAsync([FromRoute] long pessoaId, [FromQuery] GetPessoaQuery query)

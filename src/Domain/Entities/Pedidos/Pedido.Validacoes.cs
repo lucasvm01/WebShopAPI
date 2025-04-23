@@ -50,9 +50,26 @@ public partial class Pedido
         return falhas;
     }
 
-    private static List<ValidacaoDominio> PodeRemoverProduto(Produto produtoAdicionar, long quantidade, List<PedidoProduto> produtos)
+    private static List<ValidacaoDominio> PodeAlterarQuantidadeProduto(long quantidade)
     {
         List<ValidacaoDominio> falhas = new();
+
+        if (quantidade < 0)
+        {
+            falhas.Add(new ValidacaoDominio(quantidade.ToString(), "Quantidade deve ser maior ou igual a zero"));
+        }
+
+        return falhas;
+    }
+
+    private static List<ValidacaoDominio> PodeRemoverProduto(PedidoProduto? produtoAdicionar, DateTime? DataFechamento)
+    {
+        List<ValidacaoDominio> falhas = new();
+
+        if (DataFechamento != null)
+        {
+            falhas.Add(new ValidacaoDominio(DataFechamento.ToString(), "O pedido deve estar aberto"));
+        }
 
         if (produtoAdicionar == null)
         {
@@ -62,33 +79,38 @@ public partial class Pedido
         return falhas;
     }
 
-    private static List<ValidacaoDominio> PodeFecharPedido(List<PedidoProduto> produtos)
+    private static List<ValidacaoDominio> PodeFecharPedido(List<PedidoProduto> pedidoProdutos, DateTime? DataFechamento)
     {
         List<ValidacaoDominio> falhas = new();
 
-        if (produtos == null || produtos.Count == 0)
+        if (DataFechamento != null)
         {
-            falhas.Add(new ValidacaoDominio(produtos.ToString(), "Não é possível fechar pedido sem produtos vinculados"));
+            falhas.Add(new ValidacaoDominio(pedidoProdutos.ToString(), "Pedido já está fechado"));
         }
 
-        foreach (var pedidoProduto in produtos) 
+        if (pedidoProdutos == null)
+        {
+            falhas.Add(new ValidacaoDominio(pedidoProdutos.ToString(), "Não é possível fechar pedido sem produtos vinculados"));
+        }
+
+        foreach (var pedidoProduto in pedidoProdutos) 
         {
             if (!PodeRetirarQuantidadeTotalProduto(pedidoProduto.Produto.QuantidadeTotal, pedidoProduto.QuantidadeProduto)) 
             {
-                falhas.Add(new ValidacaoDominio(produtos.ToString(), "Não há quantidade do produto suficiente"));
+                falhas.Add(new ValidacaoDominio(pedidoProdutos.ToString(), "Não há quantidade do produto suficiente"));
             }
         }
 
         return falhas;
     }
 
-    private static List<ValidacaoDominio> PedidoNotIsAtivo(DateTime dataAbertura, DateTime? dataFechamento)
+    private static List<ValidacaoDominio> PedidoIsAtivo(DateTime? dataFechamento)
     {
         List<ValidacaoDominio> falhas = new();
 
         if (dataFechamento != null)
         {
-            falhas.Add(new ValidacaoDominio(dataAbertura.ToString(), "Não há quantidade do produto suficiente"));
+            falhas.Add(new ValidacaoDominio(dataFechamento.ToString(), "Produto não está ativo"));
         }
 
         return falhas;
