@@ -1,4 +1,5 @@
-﻿using WebShopAPI.Domain.Models.Pedidos;
+﻿using System.Reflection;
+using WebShopAPI.Domain.Models.Pedidos;
 using WebShopAPI.Domain.Validations;
 
 namespace WebShopAPI.Domain.Entities.Pedidos;
@@ -25,8 +26,7 @@ public partial class Pedido
         }
         else
         {
-            pedidoProduto.Produto.DiminuirQuantidade(model.Quantidade);
-            pedidoProduto.QuantidadeProduto += model.Quantidade;
+            AdicionarQuantidadePedidoProduto(pedidoProduto, model.Quantidade);
         }
     }
 
@@ -36,8 +36,7 @@ public partial class Pedido
 
         Guard.Enforce(PodeRemoverProduto(pedidoProduto, DataFechamento));
 
-        pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
-        pedidoProduto.QuantidadeProduto = 0;
+        RemoverPedidoProduto(pedidoProduto);
 
         _pedidoProdutos.Remove(pedidoProduto);
     }
@@ -54,10 +53,7 @@ public partial class Pedido
         {
             var pedidoProduto = _pedidoProdutos.First(p => p.Id == produtoId);
 
-            pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
-
-            pedidoProduto.Produto.DiminuirQuantidade(quantidadeNova);
-            pedidoProduto.QuantidadeProduto = quantidadeNova;
+            AlterarQuantidadePedidoProduto(pedidoProduto, quantidadeNova);
         }
     }
 
@@ -66,5 +62,25 @@ public partial class Pedido
         Guard.Enforce(PodeFecharPedido(_pedidoProdutos, DataFechamento));
 
         DataFechamento = DateTime.Now;
+    }
+
+    public void AdicionarQuantidadePedidoProduto(PedidoProduto pedidoProduto, long quantidade)
+    {
+        pedidoProduto.Produto.DiminuirQuantidade(quantidade);
+        pedidoProduto.QuantidadeProduto += quantidade;
+    }
+
+    public void AlterarQuantidadePedidoProduto(PedidoProduto pedidoProduto, long quantidadeNova)
+    {
+        pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
+
+        pedidoProduto.Produto.DiminuirQuantidade(quantidadeNova);
+        pedidoProduto.QuantidadeProduto = quantidadeNova;
+    }
+
+    public void RemoverPedidoProduto(PedidoProduto pedidoProduto)
+    {
+        pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
+        pedidoProduto.QuantidadeProduto = 0;
     }
 }
