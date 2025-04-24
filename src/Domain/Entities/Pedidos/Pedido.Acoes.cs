@@ -26,6 +26,7 @@ public partial class Pedido
         else
         {
             pedidoProduto.Produto.DiminuirQuantidade(model.Quantidade);
+            pedidoProduto.QuantidadeProduto += model.Quantidade;
         }
     }
 
@@ -36,7 +37,6 @@ public partial class Pedido
         Guard.Enforce(PodeRemoverProduto(pedidoProduto, DataFechamento));
 
         pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
-
         pedidoProduto.QuantidadeProduto = 0;
 
         _pedidoProdutos.Remove(pedidoProduto);
@@ -52,9 +52,12 @@ public partial class Pedido
         }
         else
         {
-            var produto = _pedidoProdutos.First(p => p.Id == produtoId);
+            var pedidoProduto = _pedidoProdutos.First(p => p.Id == produtoId);
 
-            produto.QuantidadeProduto = quantidadeNova;
+            pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
+
+            pedidoProduto.Produto.DiminuirQuantidade(quantidadeNova);
+            pedidoProduto.QuantidadeProduto = quantidadeNova;
         }
     }
 
