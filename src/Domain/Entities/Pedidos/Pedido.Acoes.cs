@@ -36,7 +36,7 @@ public partial class Pedido
 
         Guard.Enforce(PodeRemoverProduto(pedidoProduto, DataFechamento));
 
-        RemoverPedidoProduto(pedidoProduto);
+        RemoverQuantidadePedidoProduto(pedidoProduto);
 
         _pedidoProdutos.Remove(pedidoProduto);
     }
@@ -78,7 +78,7 @@ public partial class Pedido
         pedidoProduto.QuantidadeProduto = quantidadeNova;
     }
 
-    public void RemoverPedidoProduto(PedidoProduto pedidoProduto)
+    public void RemoverQuantidadePedidoProduto(PedidoProduto pedidoProduto)
     {
         pedidoProduto.Produto.AumentarQuantidade(pedidoProduto.QuantidadeProduto);
         pedidoProduto.QuantidadeProduto = 0;
