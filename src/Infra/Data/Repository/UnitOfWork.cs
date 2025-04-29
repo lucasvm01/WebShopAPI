@@ -3,19 +3,13 @@ using WebShopAPI.Infra.Data.Context;
 
 namespace WebShopAPI.Infra.Data.Repository;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork(AppDbContext dbContext) : IUnitOfWork
 {
-    private readonly AppDbContext _dbContext;
     private Dictionary<Type, object> _repositories;
-
-    public UnitOfWork(AppDbContext dbContext)
-    {
-        _dbContext = dbContext;
-    }
 
     public async Task<int> CommitAsync()
     {
-        var result = await _dbContext.SaveChangesAsync();
+        var result = await dbContext.SaveChangesAsync();
 
         return result;
     }
@@ -36,7 +30,7 @@ public class UnitOfWork : IUnitOfWork
             return (IBaseRepository<TEntity>)_repositories[type];
         }
 
-        _repositories[type] = new BaseRepository<TEntity>(_dbContext);
+        _repositories[type] = new BaseRepository<TEntity>(dbContext);
 
         return (IBaseRepository<TEntity>)_repositories[type];
     }
