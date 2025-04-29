@@ -1,7 +1,7 @@
 ﻿using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 
-namespace WebShopAPI.Infra.Data.Management;
+namespace WebShopAPI.Infra.Data.Repository;
 
 public class UnitOfWork : IUnitOfWork
 {

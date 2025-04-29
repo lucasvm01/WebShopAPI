@@ -5,7 +5,7 @@ using WebShopAPI.Application.Common;
 using WebShopAPI.Application.Pedidos;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
-using WebShopAPI.Infra.Data.Management;
+using WebShopAPI.Infra.Data.Repository;
 
 
 var builder = WebApplication.CreateBuilder(args);

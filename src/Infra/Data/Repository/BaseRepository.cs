@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using WebShopAPI.Domain.Interfaces.Infrastructure;
 using WebShopAPI.Infra.Data.Context;
 
-namespace WebShopAPI.Infra.Data.Management;
+namespace WebShopAPI.Infra.Data.Repository;
 
 public class BaseRepository<T> : IBaseRepository<T> where T : class
 {
