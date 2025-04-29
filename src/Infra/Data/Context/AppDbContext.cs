@@ -4,6 +4,7 @@ using WebShopAPI.Domain.Entities.Pedidos;
 using WebShopAPI.Domain.Entities.Pessoas;
 using WebShopAPI.Domain.Entities.Produtos;
 using WebShopAPI.Infra.Data.Configurations;
+
 namespace WebShopAPI.Infra.Data.Context;
 
 public class AppDbContext : DbContext
